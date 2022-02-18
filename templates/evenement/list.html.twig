@@ -1,0 +1,39 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Hello AgentController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code><a href="{{ 'C:/Users/Asus/Downloads/adomifit (1)/adomifit/src/Controller/AgentController.php'|file_link(0) }}">src/Controller/AgentController.php</a></code></li>
+        <li>Your template at <code><a href="{{ 'C:/Users/Asus/Downloads/adomifit (1)/adomifit/templates/agent/index.html.twig'|file_link(0) }}">templates/agent/index.html.twig</a></code></li>
+    </ul>
+</div>
+<table class="table">
+<thead>
+<tr>
+<th> Id</th>
+<th> Catégorie événement </th>
+<th> Titre</th>
+<th> Description</th>
+</tr>
+</thead>
+<tr {% for e in evenements%}>
+<td>{{e.id}}</td>
+<td>{{e.categorieEvenement}}</td>
+<td>{{e.titre}}</td>
+<td>{{e.description}}</td>
+<td><a href="{{ path( 'deleteEvenement' , {'id':e.id} )}}"> Delete </a> </td>
+<td><a href="{{ path( 'updateEvenement' , {'id':e.id} )}}"> Update </a> </td>
+</tr {% endfor %}>
+</table>
+
+{% endblock %}

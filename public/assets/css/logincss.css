@@ -1,0 +1,62 @@
+/*===== GOOGLE FONTS =====*/
+
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+/*===== VARIABLES CSS =====*/
+:root{
+  --header-height: 3.2rem;
+  --nav-width: 68px;
+  --secondnav-top:51px;
+  --secnav-height:45px;
+  /*===== Colors =====*/
+  --first-color: #035EFF;
+  --first-color-light: #AFA5D9;
+  --white-color: #F7F6FB;
+  --bg-color: #EBEEF3;
+  --bt-color: #b6b6b6 ;
+  --orange-color: #FF4914;
+  --yellow-color: #FD9D15;
+  --blue-color:  #002DC2;
+  --green-color:  #31DE8D;  
+   
+
+  
+  /*===== Font and typography =====*/
+  --body-font: 'Nunito', sans-serif;
+  --normal-font-size: 1rem;
+  --small-font-size: .75rem;
+  /*******************************************************************/
+}
+
+.size-logo{
+    width: 9.vh;
+    height: 9.8vh;
+}
+.f-right{
+    right: 0;
+}
+
+
+.blue{
+    color:#035EFF;
+}
+
+.width-sub{
+width: 100%!important;    
+}
+.btn-signin{
+background-color: #035EFF;
+color: var(--first-color);
+opacity:100%;
+}
+  
+.btn-signin:hover{
+background-color: #035EFF;
+color: var(--bg-color);
+opacity:90%;
+}
+
+@media screen {
+    
+}
