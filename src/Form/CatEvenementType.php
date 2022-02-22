@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class CatEvenementType extends AbstractType
 {
@@ -15,6 +16,12 @@ class CatEvenementType extends AbstractType
         $builder
             ->add('libelle')
             ->add('description')
+            ->add('image', FileType::class,[
+                'label'=>false,
+                'multiple'=> false,
+                'mapped'=>false,
+                'required'=>false
+            ])
             ->add('save' ,SubmitType::class , ['label' => 'Valider'])
         ;
     }

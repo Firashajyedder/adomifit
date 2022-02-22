@@ -6,9 +6,12 @@ use App\Repository\CategorieEvenementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+
 
 /**
  * @ORM\Entity(repositoryClass=CategorieEvenementRepository::class)
+ 
  */
 class CategorieEvenement
 {
@@ -30,9 +33,15 @@ class CategorieEvenement
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="categorieEvenement")
+     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="categorieEvenement", orphanRemoval=true)
      */
     private $evenements;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     
+     */
+    private $image;
 
     public function __construct()
     {
@@ -98,6 +107,18 @@ class CategorieEvenement
                 $evenement->setCategorieEvenement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage( $image)   
+    {
+        $this->image = $image;
 
         return $this;
     }

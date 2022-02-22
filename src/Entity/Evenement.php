@@ -39,6 +39,11 @@ class Evenement
      */
     private $categorieEvenement;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $image;
+
     public function __construct()
     {
         $this->billets = new ArrayCollection();
@@ -116,6 +121,18 @@ class Evenement
     public function setCategorieEvenement(?CategorieEvenement $categorieEvenement): self
     {
         $this->categorieEvenement = $categorieEvenement;
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image)
+    {
+        $this->image = $image;
 
         return $this;
     }

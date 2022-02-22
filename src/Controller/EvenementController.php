@@ -8,16 +8,21 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Evenement;
 use App\Form\EvenementType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class EvenementController extends AbstractController
 {
     /**
-     * @Route("/evenement", name="evenement")
+     * @Route("/evenement/{id}", name="evenement")
      */
-    public function index(): Response
+    public function index($id): Response
     {
-        return $this->render('evenement/index.html.twig', [
-            'controller_name' => 'EvenementController',
+        $rep=$this->getDoctrine()->getRepository(Evenement::class);
+
+   $evenements =$rep-> findByIdCategorie($id);
+        return $this->render('evenement/index.html.twig',  [
+       
+            'evenements' => $evenements,
         ]);
     }
 
@@ -49,7 +54,18 @@ class EvenementController extends AbstractController
 
         if ($form->isSubmitted()){
             $evenement = $form->getData();
+            $file = $form->get('image')->getData();
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            try{
+                $file->move(
+                $this->getParameter('images_directory'),
+                $fileName
+            );
+            }catch(FileException $e){
+
+            }
             $em = $this->getDoctrine()->getManager();
+            $evenement->setImage($fileName);
             $em->persist($evenement);
             $em->flush();
             return $this->redirectToRoute('listEvenement');
@@ -72,8 +88,19 @@ class EvenementController extends AbstractController
         $form = $this->createForm(EvenementType::class , $evenement);
         $form = $form->handleRequest($request);
         if ($form->isSubmitted()){
+            $file = $form->get('image')->getData();
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            try{
+                $file->move(
+                $this->getParameter('images_directory'),
+                $fileName
+            );
+            }catch(FileException $e){
+
+            }
           
              $em = $this->getDoctrine()->getManager();
+             $evenement->setImage($fileName);
              $em->flush();
              return $this->redirectToRoute('listEvenement');
          }
@@ -99,6 +126,19 @@ class EvenementController extends AbstractController
 
     
 
+/**
+* @Route("/listEvenementC/{id}", name="listEvenementC")
+*/
+public function listEvenementC(Request $request , $id): Response
+{
+   $rep=$this->getDoctrine()->getRepository(Evenement::class);
 
+   $evenements =$rep-> findByIdCategorie($id);
+
+   return $this->render('evenement/index.html.twig', [
+       
+       'evenements' => $evenements,
+   ]);
+}
     
 }

@@ -19,6 +19,15 @@ class BilletRepository extends ServiceEntityRepository
         parent::__construct($registry, Billet::class);
     }
 
+
+    public function findByIdEvenement($id){
+
+        return $this->createQueryBuilder('b')
+        ->Where('b.evenement =:evenement')
+        ->setParameter('evenement',$id)
+        ->getQuery()
+        ->getResult();
+    }
     // /**
     //  * @return Billet[] Returns an array of Billet objects
     //  */

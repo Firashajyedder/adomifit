@@ -13,10 +13,10 @@ class BilletType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('numero')
             ->add('detail')
             ->add('horaire')
             ->add('evenement')
+            ->add('numero')
             ->add('save' ,SubmitType::class , ['label' => 'Valider'])
         ;
     }

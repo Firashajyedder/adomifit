@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\CategorieEvenement;
 use App\Form\CatEvenementType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class CategorieEvenementController extends AbstractController
 {
@@ -35,7 +36,20 @@ public function list(): Response
        'categories' => $categories,
    ]);
 }
+ /**
+* @Route("/listCategorieF", name="listCategorieF")
+*/
+public function listF(): Response
+{
+   $rep=$this->getDoctrine()->getRepository(CategorieEvenement::class);
 
+   $categories =$rep-> findAll();
+
+   return $this->render('categorie_evenement/index.html.twig', [
+       'controller_name' => 'CategorieEvenementController',
+       'categories' => $categories,
+   ]);
+}
 /**
      * @Route("/addCatEvenement", name="addCatEvenement")
      */
@@ -48,7 +62,19 @@ public function list(): Response
 
         if ($form->isSubmitted() && $form->isValid()){
             $categorie = $form->getData();
+            
+            $file = $form->get('image')->getData();
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            try{
+                $file->move(
+                $this->getParameter('images_directory'),
+                $fileName
+            );
+            }catch(FileException $e){
+
+            }
             $em = $this->getDoctrine()->getManager();
+            $categorie->setImage($fileName);
             $em->persist($categorie);
             $em->flush();
             return $this->redirectToRoute('listCategorie');
@@ -71,8 +97,19 @@ public function list(): Response
         $form = $this->createForm(CatEvenementType::class , $categorie);
         $form = $form->handleRequest($request);
         if ($form->isSubmitted()){
+            $file = $form->get('image')->getData();
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            try{
+                $file->move(
+                $this->getParameter('images_directory'),
+                $fileName
+            );
+            }catch(FileException $e){
+
+            }
           
              $em = $this->getDoctrine()->getManager();
+             $categorie->setImage($fileName);
              $em->flush();
              return $this->redirectToRoute('listCategorie');
          }
@@ -96,5 +133,6 @@ public function list(): Response
         $em->flush();
         return $this->redirectToRoute('listCategorie');
     }
+    
 
 } 

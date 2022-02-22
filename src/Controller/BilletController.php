@@ -35,6 +35,8 @@ public function list(): Response
        'controller_name' => 'BilletController',
        'billets' => $billets,
    ]);
+
+   
 }
 
 /**
@@ -101,10 +103,23 @@ public function list(): Response
 
 
 
+/**
+* @Route("/listBilletC/{id}", name="listBilletC")
+*/
+public function listBilletC(Request $request , $id): Response
+{
+   $rep=$this->getDoctrine()->getRepository(Billet::class);
+
+   $billets =$rep-> findByIdEvenement($id);
+
+   return $this->render('billet/index.html.twig', [
+       
+       'billets' => $billets,
+   ]);
+}
 
 
-
-
+    
 
 
 }

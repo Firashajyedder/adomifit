@@ -17,10 +17,7 @@ class Billet
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $numero;
+    
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -37,17 +34,23 @@ class Billet
      */
     private $evenement;
 
+    
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $numero;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNumero(): ?int
+    public function getNumero(): ?float
     {
         return $this->numero;
     }
 
-    public function setNumero(int $numero): self
+    public function setNumero(float $numero): self
     {
         $this->numero = $numero;
 
@@ -89,4 +92,6 @@ class Billet
 
         return $this;
     }
+
+    
 }

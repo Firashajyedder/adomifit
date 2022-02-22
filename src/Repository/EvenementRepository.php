@@ -18,6 +18,15 @@ class EvenementRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Evenement::class);
     }
+    
+    public function findByIdCategorie($id){
+
+        return $this->createQueryBuilder('e')
+        ->Where('e.categorieEvenement =:categorieEvenement')
+        ->setParameter('categorieEvenement',$id)
+        ->getQuery()
+        ->getResult();
+    }
 
     // /**
     //  * @return Evenement[] Returns an array of Evenement objects
