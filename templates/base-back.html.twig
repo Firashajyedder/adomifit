@@ -24,14 +24,14 @@
   {% block cssAdmin %}
   
     <!-- Libraries Stylesheet -->
-    <link href="back-office/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="back-office/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="/back-office/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/back-office/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
    
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="back-office/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/back-office/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="back-office/css/style.css" rel="stylesheet">
+    <link href="/back-office/css/style.css" rel="stylesheet">
      {% endblock %}
 </head>
 
@@ -55,11 +55,11 @@
 
 
                 <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <img src="back-office/img/logoa.png"  style="width: 100px; height: 100px;"  alt="">
+                    <img src="/back-office/img/logoa.png"  style="width: 100px; height: 100px;"  alt="">
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="back-office/img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle" src="/back-office/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
@@ -73,9 +73,9 @@
                      <a href="/client" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Client</a>
                       <a href="/agent" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Agent</a>
                        <a href="/listProduit" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Produit</a>
-                        <a href="/listCategorie" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Evenement</a>
-                         <a href="/listProgramme" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Programme</a>
-                          <a href="/listRegime" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Regime</a>
+                        <a href="/listCategorie" class="nav-item nav-link"><i class="fa fa-th me-2"></i>CatégorieE</a>
+                         <a href="/listEvenement" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Evenement</a>
+                          <a href="/listBillet" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Billet</a>
                            <a href="/listRegime" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Forum</a>
                 </div>
             </nav>
@@ -105,7 +105,7 @@
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="back-office/img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                    <img class="rounded-circle" src="/back-office/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
@@ -115,7 +115,7 @@
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="back-office/img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                    <img class="rounded-circle" src="/back-office/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
@@ -125,7 +125,7 @@
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="back-office/img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                    <img class="rounded-circle" src="/back-office/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
@@ -162,7 +162,7 @@
                     </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="back-office/img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <img class="rounded-circle me-lg-2" src="/back-office/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">John Doe</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
@@ -189,23 +189,23 @@
 
 
         <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square /back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
     {% block js %}  {% endblock %}
      {% block jsadmin %}
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="back-office/lib/chart/chart.min.js"></script>
-    <script src="back-office/lib/easing/easing.min.js"></script>
-    <script src="back-office/lib/waypoints/waypoints.min.js"></script>
-    <script src="back-office/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="back-office/lib/tempusdominus/js/moment.min.js"></script>
-    <script src="back-office/lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="back-office/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="/back-office/lib/chart/chart.min.js"></script>
+    <script src="/back-office/lib/easing/easing.min.js"></script>
+    <script src="/back-office/lib/waypoints/waypoints.min.js"></script>
+    <script src="/back-office/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/back-office/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="/back-office/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="/back-office/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="back-office/js/main.js"></script>
+    <script src="/back-office/js/main.js"></script>
     {% endblock %}
 </body>
 
