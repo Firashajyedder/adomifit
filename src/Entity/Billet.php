@@ -35,7 +35,7 @@ class Billet
     private $horaire;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Evenement::class, inversedBy="billets")
+     * @ORM\ManyToOne(targetEntity=Evenement::class, inversedBy="billets",orphanRemoval=true)
      * @Assert\NotBlank (message="Veuillez remplir ce champs")
      */
     private $evenement;

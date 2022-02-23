@@ -35,7 +35,7 @@ class Evenement
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Billet::class, mappedBy="evenement")
+     * @ORM\OneToMany(targetEntity=Billet::class, mappedBy="evenement", orphanRemoval=true)
      * @Assert\NotBlank (message="Veuillez remplir ce champs")
      
      */
