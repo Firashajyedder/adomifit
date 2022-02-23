@@ -34,8 +34,9 @@
                         <div class="bi-pic">
                             <img src="{{asset('/uploads/images/' ~  e.image )}}" alt="">
                         </div>
-                        
                         <div class="bi-text">
+                        <div><a href="#" class="primary-btn btn-normal appoinment-btn">Détails</a></div>
+                        
                             <h5><a>{{e.titre}}</a></h5>
                             <ul>
                                 <li>by Admin</li>
@@ -45,7 +46,7 @@
                             <p>{{e.description}}</p>
                              <a href="{{ path( 'listBilletC' , {'id':e.id} )}}" class="primary-btn btn-normal appoinment-btn">appointment</a>
                         </div>
-                       
+       
                     </div>
                     {% endfor %}
                     

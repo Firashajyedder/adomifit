@@ -24,7 +24,8 @@
 <th> Catégorie événement </th>
 <th> Prix</th>
 <th> Description</th>
-<th> horaire</th>
+<th> Horraire</th>
+<th> Quantite</th>
 </tr>
 </thead>
 <tr {% for b in billets%}>
@@ -33,9 +34,11 @@
 <td>{{b.numero}}</td>
 <td>{{b.detail}}</td>
 <td>{{b.horaire | date("m/d/Y")}}</td>
+<td>{{b.quantite}}</td>
 <td><a href="{{ path( 'deleteBillet' , {'id':b.id} )}}"> Delete </a> </td>
 <td><a href="{{ path( 'updateBillet' , {'id':b.id} )}}"> Update </a> </td>
 </tr {% endfor %}>
+<td><a href="{{ path( 'addBillet'  )}}"> Create New </a> </td>
 </table>
 
 {% endblock %}

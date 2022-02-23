@@ -49,7 +49,7 @@ public function list(): Response
         $form = $this->createForm(BilletType::class , $billet);
         $form = $form->handleRequest($request);
 
-        if ($form->isSubmitted()){
+        if ($form->isSubmitted() && $form->isValid()){
             $billet = $form->getData();
             $em = $this->getDoctrine()->getManager();
             $em->persist($billet);
@@ -74,7 +74,7 @@ public function list(): Response
         $billet  = $rep->find($id);
         $form = $this->createForm(BilletType::class , $billet);
         $form = $form->handleRequest($request);
-        if ($form->isSubmitted()){
+        if ($form->isSubmitted() && $form->isValid()){
           
              $em = $this->getDoctrine()->getManager();
              $em->flush();

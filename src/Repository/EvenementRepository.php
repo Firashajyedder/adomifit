@@ -27,6 +27,15 @@ class EvenementRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
     }
+    public function findByIddetail($id){
+
+        return $this->createQueryBuilder('e')
+        ->Where('e.id =:id')
+        ->setParameter('id',$id)
+        ->getQuery()
+        ->getResult();
+    }
+    
 
     // /**
     //  * @return Evenement[] Returns an array of Evenement objects

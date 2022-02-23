@@ -96,7 +96,7 @@ public function listF(): Response
         $categorie  = $rep->find($id);
         $form = $this->createForm(CatEvenementType::class , $categorie);
         $form = $form->handleRequest($request);
-        if ($form->isSubmitted()){
+        if ($form->isSubmitted() && $form->isValid()){
             $file = $form->get('image')->getData();
             $fileName = md5(uniqid()).'.'.$file->guessExtension();
             try{

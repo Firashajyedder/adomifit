@@ -36,6 +36,7 @@
 <td><a href="{{ path( 'deleteEvenement' , {'id':e.id} )}}"> Delete </a> </td>
 <td><a href="{{ path( 'updateEvenement' , {'id':e.id} )}}"> Update </a> </td>
 </tr {% endfor %}>
+<td><a href="{{ path( 'addEvenement'  )}}"> Create New </a> </td>
 </table>
 
 {% endblock %}

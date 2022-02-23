@@ -17,6 +17,7 @@ class BilletType extends AbstractType
             ->add('horaire')
             ->add('evenement')
             ->add('numero')
+            ->add('quantite')
             ->add('save' ,SubmitType::class , ['label' => 'Valider'])
         ;
     }

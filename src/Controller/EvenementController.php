@@ -52,7 +52,7 @@ class EvenementController extends AbstractController
         $form = $this->createForm(EvenementType::class , $evenement);
         $form = $form->handleRequest($request);
 
-        if ($form->isSubmitted()){
+        if ($form->isSubmitted() && $form->isValid()){
             $evenement = $form->getData();
             $file = $form->get('image')->getData();
             $fileName = md5(uniqid()).'.'.$file->guessExtension();
@@ -87,7 +87,7 @@ class EvenementController extends AbstractController
         $evenement  = $rep->find($id);
         $form = $this->createForm(EvenementType::class , $evenement);
         $form = $form->handleRequest($request);
-        if ($form->isSubmitted()){
+        if ($form->isSubmitted() && $form->isValid()){
             $file = $form->get('image')->getData();
             $fileName = md5(uniqid()).'.'.$file->guessExtension();
             try{
@@ -136,6 +136,21 @@ public function listEvenementC(Request $request , $id): Response
    $evenements =$rep-> findByIdCategorie($id);
 
    return $this->render('evenement/index.html.twig', [
+       
+       'evenements' => $evenements,
+   ]);
+}
+
+/**
+* @Route("/listEvenementD/{id}", name="listEvenementD")
+*/
+public function listEvenementD(Request $request , $id): Response
+{
+   $rep=$this->getDoctrine()->getRepository(Evenement::class);
+
+   $evenements =$rep-> findByIddetail($id);
+
+   return $this->render('evenement/index1.html.twig', [
        
        'evenements' => $evenements,
    ]);
