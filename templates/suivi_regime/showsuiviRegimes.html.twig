@@ -1,0 +1,134 @@
+{% extends 'base-front.html.twig' %}
+
+{% block title %}A domifit | Suivi{% endblock %}
+{% block body %}
+
+    
+      <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/front-office/img/breadcrumb-bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb-text">
+                        <h2>Votre Suivi Régime</h2>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- BMI Calculator Section Begin -->
+    <section class="bmi-calculator-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="section-title chart-title">
+                        <span>vérifier ton corps</span>
+                        <h2>TABLEAU DE CALCULATEUR IMC</h2>
+                    </div>
+                    <div class="chart-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Bmi</th>
+                                    <th>STATUT DE POIDS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="point">Au dessous de 18.5</td>
+                                    <td>Poids insuffisant</td>
+                                </tr>
+                                <tr>
+                                    <td class="point">18.5 - 24.9</td>
+                                    <td>Healthy</td>
+                                </tr>
+                                <tr>
+                                    <td class="point">25.0 - 29.9</td>
+                                    <td>En surpoids</td>
+                                </tr>
+                                <tr>
+                                    <td class="point">30.0 - et ci-dessus</td>
+                                    <td>Obése</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="section-title chart-calculate-title">
+                        <span>vérifier ton corps</span>
+                        <h2>CALCULEZ VOTRE IMC</h2>
+                    </div>
+                    <div class="chart-calculate-form">
+                        <p>L'indice de masse corporelle ou IMC (BMI en anglais pour Body Mass Index) permet de déterminer la corpulence d'une personne. 
+                        Cet indice de masse corporelle se calcule en fonction de la taille (en mètres) et du poids (en kilogrammes).
+                         Il n'est correctement interprétable que pour un adulte de 18 à 65 ans. L'IMC est le rapport du poids (en kg) sur la taille (en mètre) élevée au carré.</p>
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input type="text" placeholder="Taille / cm">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" placeholder="Poid / kg">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" placeholder="Age">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" placeholder="Sexe">
+                                </div>
+                                <div class="col-lg-12">
+                                    <button type="submit">Calculer</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div><br>
+        <section >
+        <div class="container" style="background: #ffff; ">
+    <div id="calendrier" style ="width:80%; margin:auto;">
+    </div>
+    </div>
+    </section>
+    </section>
+    <!-- BMI Calculator Section End -->
+
+    <!---->
+  
+
+{% block javaScript %}
+
+<script>
+window.onload = () => {
+    let calendarElt = document.querySelector("#calendrier")
+
+    let calendar = new FullCalendar.Calendar(calendarElt ,{
+      initialView: 'dayGridMonth'  ,
+      locale : 'fr',
+      headerToolbar: {
+          start: 'prev,next today',
+          center: 'title',
+          end: 'dayGridMonth,timeGridWeek'
+      },
+      events:{{ data|raw}},
+  
+    })
+   
+    calendar.render()
+}
+</script>
+
+
+
+{% endblock %}
+
+
+
+
+    
+{% endblock %}
