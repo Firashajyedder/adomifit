@@ -86,7 +86,7 @@ class CategorieRegimeController extends AbstractController
     /**
      * @Route("/deleteCatRegime/{id}", name="deleteCatRegime")
      */
-    public function deleteRegime($id): Response
+    public function deleteCatRegime($id): Response
     {
         $rep = $this->getDoctrine()->getRepository(CategorieRegime::class);
         $em = $this->getDoctrine()->getManager();

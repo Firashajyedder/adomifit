@@ -161,6 +161,7 @@ class User
     {
         return $this->email;
     }
+  
 
     public function setEmail(string $email): self
     {

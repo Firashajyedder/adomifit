@@ -47,7 +47,7 @@
 <form method="post" action="{{ path('addRegime') }}" >
     <button class="btn btn-success">Ajouter Régime</button>
 </form>
-   
+
 
     <table class="table">
         <thead>
@@ -98,6 +98,8 @@
         </tbody>
     </table>
 
-
+<form method="post" action="{{ path( 'TemplateRegime')}}" >
+    <button style="background: #f36100;" class="btn-danger">TemplateRegime</button>
+</form>
 {% endblock %}
 

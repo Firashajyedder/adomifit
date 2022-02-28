@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Regime;
 use App\Form\AddRegimeType;
 use Doctrine\ORM\Mapping\Id;
@@ -76,9 +77,12 @@ class RegimeController extends AbstractController
      /**
      * @Route("/addRegime", name="addRegime")
      */
-    public function addRegime(Request $request): Response
+    public function addRegime(Request $request, \Swift_Mailer $mailer): Response
     {
-
+ //va etre variable session
+    $user_id=2;
+    $rep = $this->getDoctrine()->getRepository(User::class);
+    $user = $rep->find($user_id);
         $regime = new Regime();
         $form = $this->createForm(AddRegimeType::class , $regime);
         $form = $form->handleRequest($request);
@@ -101,6 +105,21 @@ class RegimeController extends AbstractController
             $regime->setImage($fileName);
             $em->persist($regime);
             $em->flush();
+            //envoie email success d'ajout regime
+            $userEmail = $user->getEmail();
+            $message = (new \Swift_Message('New'))
+
+            ->setFrom('houssem.kouki@esprit.tn')
+
+            ->setTo($userEmail )
+
+            ->setSubject('Votre régime a été enregistrée !')
+            ->setBody( $this->renderView(
+                'regime/addRegimeEmail.html.twig'),
+               
+                'text/html'
+            );
+            $mailer->send($message); 
             return $this->redirectToRoute('listRegimes');
         }
 
@@ -109,6 +128,46 @@ class RegimeController extends AbstractController
             'formAddRegime'=>$form->createView(),
         ]);
     }
+
+
+
+
+
+    //template regime email
+     /**
+     * @Route("/TemplateRegime", name="TemplateRegime")
+     */
+    public function TemplateRegime(Request $request,PaginatorInterface $paginator): Response
+    {
+        
+        return $this->render('regime/addRegimeEmail.html.twig', [
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
      /**
      * @Route("/updateRegime/{id}", name="updateRegime")
@@ -144,9 +203,7 @@ class RegimeController extends AbstractController
      ]);
         
     }
-
-
-     /**
+  /**
      * @Route("/deleteRegime/{id}", name="deleteRegime")
      */
     public function deleteRegime($id): Response
@@ -159,32 +216,31 @@ class RegimeController extends AbstractController
         return $this->redirectToRoute('listRegimes');
     }
 
-    /**
+
+    
+
+
+     /**
      * @Route("/searchRegime", name="searchRegime")
      */
     public function searchRegime(Request $request , RegimeRepository $regimeRepository){
         $em = $this->getDoctrine()->getManager();
         $requestString = $request->get('q');
-        $posts = $regimeRepository->findEntitiesByString($requestString);
-
-        if (!$posts){
-            $result['posts']['error' ]= "Pas de régime !";
-        }else{
-            $result['posts']=$this->getRealEntities($posts);
+        $posts =  $regimeRepository->findEntitiesByString($requestString);
+        if(!$posts) {
+            $result['posts']['error'] = "Pas de régime ! :( ";
+        } else {
+            $result['posts'] = $this->getRealEntities($posts);
         }
         return new Response(json_encode($result));
-
     }
-
     public function getRealEntities($posts){
-        foreach($posts as $posts){
-            $realEntities[$posts->getId()] = [$posts->getImage() , $posts->getType()];
+        foreach ($posts as $posts){
+            $realEntities[$posts->getId()] = [$posts->getImage(),$posts->getType()];
 
         }
         return $realEntities;
     }
-
-
 
 
     
