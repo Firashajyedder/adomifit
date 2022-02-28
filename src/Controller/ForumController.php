@@ -14,10 +14,29 @@ class ForumController extends AbstractController
     /**
      * @Route("/forum", name="forum")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return $this->render('forum/index.html.twig', [
-            'controller_name' => 'ForumController',
+        ///ajout de forum!!
+        $forum = new Forum();
+        $form=$this->createForm(ForumType::class,$forum);
+        $form->handleRequest($request);
+        
+        
+        if($form->isSubmitted()&& $form->isValid()){
+            $forum = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($forum);
+            $em->flush();
+            return $this->redirectToRoute('forum');
+
+    }
+       //////////liste forum !!!
+        $repository=$this->getDoctrine()->getRepository(Forum::class);
+        $forum=$repository-> findAll();
+        
+        
+        return $this->render('forum/index-admin.html.twig', [
+            'formA' => $form->createView(),  'forums' => $forum,
         ]);
     }
 
@@ -55,7 +74,7 @@ class ForumController extends AbstractController
     }
         
         
-        return $this->render('forum/add.html.twig', [
+        return $this->render('forum/index.html.twig', [
             'formA' => $form->createView()
         ]);
     }
@@ -71,7 +90,7 @@ class ForumController extends AbstractController
       $em->remove($forum);
       $em->flush();
 
-        return $this->redirectToRoute('listForum');
+        return $this->redirectToRoute('forum');
        
     }
 
@@ -87,7 +106,7 @@ class ForumController extends AbstractController
         if($form->isSubmitted()&& $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            return $this->redirectToRoute('listForum');
+            return $this->redirectToRoute('forum');
 
         }
 

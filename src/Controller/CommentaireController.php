@@ -13,11 +13,46 @@ class CommentaireController extends AbstractController
     /**
      * @Route("/commentaire", name="commentaire")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        
+        
+         //// ajouter cmnt
+
+         $cmnt = new Commentaire();
+         $form=$this->createForm(CommentaireType::class,$cmnt);
+         $form->handleRequest($request);
+         
+         
+         if($form->isSubmitted()&& $form->isValid()){
+             $cmnt = $form->getData();
+             $em = $this->getDoctrine()->getManager();
+             $em->persist($cmnt);
+             $em->flush();
+             return $this->redirectToRoute('commentaire');
+ 
+     }
+
+
+     ///// lister cmnt
+
+     
+     $repository=$this->getDoctrine()->getRepository(Commentaire::class);
+     $Commentaire=$repository-> findAll();
+
+    
+
+     
+        
+
+        
         return $this->render('commentaire/index.html.twig', [
-            'controller_name' => 'CommentaireController',
+            'controller_name' => 'CommentaireController', 'formA' => $form->createView(), 'cmnt' => $Commentaire,
         ]);
+
+
+       
+        
     }
 
        /**
@@ -69,7 +104,7 @@ class CommentaireController extends AbstractController
       $em->remove($cmnt);
       $em->flush();
 
-        return $this->redirectToRoute('listCommentaire');
+        return $this->redirectToRoute('commentaire');
        
     }
 
@@ -85,7 +120,7 @@ class CommentaireController extends AbstractController
         if($form->isSubmitted()&& $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            return $this->redirectToRoute('listCommentaire');
+            return $this->redirectToRoute('commentaire');
 
         }
 

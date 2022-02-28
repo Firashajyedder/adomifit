@@ -1,40 +1,27 @@
-{% extends 'base-front.html.twig' %}
+{% extends 'base-back.html.twig' %}
 
 {% block title %}A domifit | Forums{% endblock %}
- {% block css %}
+ {% block cssAdmin %}
    
-    <link rel="stylesheet" href="front-office/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="front-office/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="front-office/css/flaticon.css" type="text/css">
-    <link rel="stylesheet" href="front-office/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="front-office/css/barfiller.css" type="text/css">
-    <link rel="stylesheet" href="front-office/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="front-office/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="front-office/css/style.css" type="text/css">
+    <!-- Libraries Stylesheet -->
+    <link href="back-office/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="back-office/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+   
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="back-office/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="back-office/css/style.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
             	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
 {% endblock %}
 {% block body %}
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
-  <section class="breadcrumb-section set-bg" data-setbg="front-office/img/breadcrumb-bg.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 p-0 m-auto">
-                    <div class="bh-text">
-                        <h3>Workout nutrition explained. What to eat before, during, and after exercise.</h3>
-                        <ul>
-                            <li>by Admin</li>
-                            <li>Aug,15, 2019</li>
-                            <li>20 Comment</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  
 <div class="container">
 <div class="main-body p-0">
     <div class="inner-wrapper">
@@ -63,7 +50,13 @@
                                     <div class="simplebar-content" style="padding: 16px;">
                                         <nav class="nav nav-pills nav-gap-y-1 flex-column">
                                          <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon active">All Threads</a>
-                                            
+                                             {%for f in forums%}
+                                            <div>
+                                            <a href=" " class="nav-link nav-link-faded has-icon  ">{{f.titre}} </a> 
+                                            <a href="{{ path('modifierForum',{'id' :f.id}) }}" class="bi bi-pencil" > </a>
+                                            <a href="{{ path('deleteForum',{'id' :f.id}) }}"class="bi bi-trash3" > </a>
+                                            </div>
+                                           {% endfor %}
                                         </nav>
                                     </div>
                                 </div>
@@ -208,18 +201,15 @@
                             </div>
                         </div>
                     </div>
-                   
                 </div>
-                 
-                  {%for c in cmnt%}
                 <div class="card mb-2">
                     <div class="card-body p-2 p-sm-3">
                         <div class="media forum-item">
                             <a href="#" data-toggle="collapse" data-target=".forum-content"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="mr-3 rounded-circle" width="50" alt="User" /></a>
                             <div class="media-body">
-                                <h6><a href="#" data-toggle="collapse" data-target=".forum-content" class="text-body">{{c.type}}</a></h6>
+                                <h6><a href="#" data-toggle="collapse" data-target=".forum-content" class="text-body">Auth attempt returns false</a></h6>
                                 <p class="text-secondary">
-                                    {{c.contenu}}
+                                    lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
                                 </p>
                                 <p class="text-muted"><a href="javascript:void(0)">michaeloravec</a> replied <span class="text-secondary font-weight-bold">18 hours ago</span></p>
                             </div>
@@ -227,24 +217,9 @@
                                 <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 70</span>
                                 <span><i class="far fa-comment ml-2"></i> 3</span>
                             </div>
-                      
                         </div>
-                        {% if c.user == "firas" %}
-                            <a href="{{ path('deleteCommentaire',{'id' :c.id}) }}" type="button" class="btn btn-danger">supprimer</a>
-                    <a type="button" class="btn btn-success"  href="{{ path('modifierCommentaire',{'id' :c.id}) }}">Modifier</a>
-                    {% endif%}
                     </div>
                 </div>
-                 
-                {%endfor%}
-                 {{ form_start (formA,{'attr': {'novalidate': 'novalidate'}}) }}
-                <div class="input-group"> 
-                {{form_row(formA.contenu,{'attr':{'placeholder':'Ajouter une question','class':'form-control','type':'text','id':'contenu'}})}}
-                 {{form_row(formA.save,{'attr':{'class':'btn btn-primary'}})}}
-
-                <button typeclass="btn btn-primary" >envoyer</button>
-                </div>
-                {{form_end(formA)}}
                 <ul class="pagination pagination-sm pagination-circle justify-content-center mb-0">
                     <li class="page-item disabled">
                         <span class="page-link has-icon"><i class="material-icons">chevron_left</i></span>
@@ -317,12 +292,18 @@
         <!-- /Inner main -->
     </div>
 
-    <!-- New Thread Modal -->
-    <div class="modal fade" id="threadModal" tabindex="-1" role="dialog" aria-labelledby="threadModalLabel" aria-hidden="true">
+   <--! Modal !-->
+    
+
+
+
+
+
+     <div class="modal fade" id="threadModal" tabindex="-1" role="dialog" aria-labelledby="threadModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 
-               
+                 {{ form_start (formA,{'attr': {'novalidate': 'novalidate'}}) }}
                     <div class="modal-header d-flex align-items-center bg-primary text-white">
                         <h6 class="modal-title mb-0" id="threadModalLabel">New Discussion</h6>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -330,34 +311,42 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                    
+                        <div class="form-group">
+                     
+                          
+
+                            
+                           
+                              {{form_row(formA.titre,{'attr':{'placeholder':'Titre','class':'form-control','id':'threadTitle'}})}}
+                              {{form_row(formA.nbrParticipant,{'attr':{'placeholder':'0','class':'form-control','id':'threadnbr'}})}}
+                        
+                        
 
                         
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
-                         
+                         {{form_row(formA.save,{'attr':{'class':'btn btn-primary'}})}}
                        
                     </div>
-                    
+                    {{form_end(formA)}}
                 
             </div>
         </div>
     </div>
-</div>
-</div>
+   
 
+
+
+</div>
+</div>
 
 <style type="text/css">
 body{
     margin-top:20px;
     color: #1a202c;
     text-align: left;
-    background-color: #151515;    
-}
-
-label{
-    color:#ffffff;
+    background-color: #e2e8f0;    
 }
 .inner-wrapper {
     position: relative;
@@ -382,7 +371,7 @@ label{
     left: 0;
     width: 235px;
     border-right: 1px solid #cbd5e0;
-    background-color: #151515;
+    background-color: #fff;
     z-index: 1;
 }
 .inner-main {
@@ -413,8 +402,7 @@ label{
 }
 .inner-main-footer,
 .inner-main-header {
-    background-color: #000000;
-	opacity:0.5;
+    background-color: #fff;
 }
 .inner-main-footer,
 .inner-sidebar-footer {
@@ -470,7 +458,7 @@ label{
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #0a0a0a;
+    background-color: #fff;
     background-clip: border-box;
     border: 0 solid rgba(0,0,0,.125);
     border-radius: .25rem;
@@ -480,41 +468,6 @@ label{
     flex: 1 1 auto;
     min-height: 1px;
     padding: 1rem;
-}
-.text-body {
-    color: #f36100!important;
-	}
-.text-secondary {
-    color: #ffffff!important;
-}
-a:hover {
-    color: #f36100;
-    text-decoration: underline;
-}
-a {
-    color: #f36100;
-    text-decoration: none;
-    background-color: transparent;
-}
-
-.bg-primary
-{
-    background-color:#f36100!important;
-}
-.btn-primary
-{
-    background-color:#f36100;
-    border-color: #f36100;
-}
-.btn-primary:hover, .btn-primary:focus , .btn-primary:not(:disabled):not(.disabled):active
-{
-     background-color:#f36100;
-     border-color: #f36100;
-}
-.btn-light
-{
-    background-color: #495057;
-    color:#ffffff;
 }
 </style>
 

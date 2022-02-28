@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommentaireRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CommentaireRepository::class)
@@ -19,21 +20,25 @@ class Commentaire
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Contenu is required")
      */
     private $contenu;
 
     /**
+     * @Assert\NotBlank(message="Type is required")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity=Forum::class, inversedBy="commentaires")
+     * @Assert\NotBlank(message="forum is required")
      */
     private $forum;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentaires")
+     * @Assert\NotBlank(message="Contenu is required")
      */
     private $user;
 
