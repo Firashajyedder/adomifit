@@ -33,12 +33,12 @@ class CategorieEvenement
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank (message="Veuillez remplir ce champs")
-     * @Assert\Length(min=20  )
+     
      */
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="categorieEvenement", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="categorieEvenement",orphanRemoval=true)
      * @Assert\NotBlank (message="Veuillez remplir ce champs")
      */
     private $evenements;

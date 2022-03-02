@@ -23,6 +23,7 @@ class EvenementType extends AbstractType
                 'mapped'=>false,
                 'required'=>false
             ])
+            ->add('horraire')
             ->add('save' ,SubmitType::class , ['label' => 'Valider'])
 
         ;

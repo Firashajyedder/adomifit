@@ -23,19 +23,19 @@ class Evenement
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank (message="Veuillez remplir ce champs")
-     * @Assert\Length(min=5  )
+     
      */
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank (message="Veuillez remplir ce champs")
-     * @Assert\Length(min=20  )
+     
      */
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Billet::class, mappedBy="evenement", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Billet::class, mappedBy="evenement",orphanRemoval=true)
      * @Assert\NotBlank (message="Veuillez remplir ce champs")
      
      */
@@ -49,9 +49,17 @@ class Evenement
 
     /**
      * @ORM\Column(type="string", length=255)
-     
      */
     private $image;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Assert\NotBlank (message="Veuillez remplir ce champs")
+     * @Assert\Range( min = "now")
+     */
+    private $horraire;
+
+    
 
     public function __construct()
     {
@@ -145,4 +153,18 @@ class Evenement
 
         return $this;
     }
+
+    public function getHorraire(): ?\DateTimeInterface
+    {
+        return $this->horraire;
+    }
+
+    public function setHorraire(?\DateTimeInterface $horraire): self
+    {
+        $this->horraire = $horraire;
+
+        return $this;
+    }
+
+    
 }

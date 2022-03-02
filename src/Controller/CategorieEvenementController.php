@@ -135,4 +135,31 @@ public function listF(): Response
     }
     
 
-} 
+    public function searchAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $requestString = $request->get('q');
+        $categorie =  $em->getRepository(CategorieEvenement::class)->findEntitiesByString($requestString);
+        if(!$categorie) {
+            $result['categorie']['error'] = "Categorie Not found :( ";
+        } else {
+            $result['categorie'] = $this->getRealEntities($categorie);
+        }
+        return new Response(json_encode($result));
+    }
+
+
+    public function getRealEntities ($categorie){  
+    foreach ($categorie as $categorie){
+        $realEntities[$categorie->getId()] = [$categorie->getImage(),$categorie->getDescription()];
+
+    }
+    return $realEntities;
+}
+   
+}
+
+
+
+
+ 

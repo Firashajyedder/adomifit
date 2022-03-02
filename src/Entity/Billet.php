@@ -23,7 +23,7 @@ class Billet
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank (message="Veuillez remplir ce champs")
-     * @Assert\Length(min=20  )
+     
      */
     private $detail;
 
@@ -35,7 +35,7 @@ class Billet
     private $horaire;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Evenement::class, inversedBy="billets",orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity=Evenement::class, inversedBy="billets")
      * @Assert\NotBlank (message="Veuillez remplir ce champs")
      */
     private $evenement;

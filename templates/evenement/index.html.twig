@@ -44,7 +44,8 @@
                                 <li>20 Comment</li>
                             </ul>
                             <p>{{e.description}}</p>
-                             <a href="{{ path( 'listBilletC' , {'id':e.id} )}}" class="primary-btn btn-normal appoinment-btn">appointment</a>
+                            <h5><a>{{e.horraire| date("m/d/Y")}}</a></h5>
+                             <a href="{{ path( 'listBilletC' , {'id':e.id} )}}" class="primary-btn btn-normal appoinment-btn">Participer</a>
                         </div>
        
                     </div>
