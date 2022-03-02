@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\CategorieRegimeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,6 +18,7 @@ class CategorieRegime
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("categorieRegime")
      */
     private $id;
 
@@ -29,6 +31,7 @@ class CategorieRegime
      *      minMessage = "Minimum {{ limit }} caractéres",
      *      maxMessage = "Maximum {{ limit }} caractéres"
      * )
+     * @Groups("categorieRegime")
      */
     private $libelle;
 
@@ -39,11 +42,13 @@ class CategorieRegime
      *      min = 10,
      *      minMessage = "Minimum {{ limit }} caractéres"
      * )
+     * @Groups("categorieRegime")
      */
     private $description;
 
     /**
      * @ORM\OneToMany(targetEntity=Regime::class, mappedBy="categorieRegime",orphanRemoval=true)
+     * @Groups("categorieRegime")
      */
     private $regimes;
 

@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\RegimeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\RegimeRepository;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=RegimeRepository::class)
@@ -18,6 +19,7 @@ class Regime
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("regime")
      */
     private $id;
 
@@ -30,18 +32,21 @@ class Regime
      *      minMessage = "Minimum {{ limit }} caractéres",
      *      maxMessage = "Maximum {{ limit }} caractéres"
      * )
+     * @Groups("regime")
      */
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="donner description de régime !")
+     * @Groups("regime")
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="donner dificulte de régime !")
+     * @Groups("regime")
      */
     private $dificulte;
 
@@ -49,29 +54,34 @@ class Regime
 
     /**
      * @ORM\OneToMany(targetEntity=SuiviRegime::class, mappedBy="regime")
+     * @Groups("regime")
      */
     private $suivisRegimes;
 
     /**
      * @ORM\ManyToOne(targetEntity=CategorieRegime::class, inversedBy="regimes")
      * @Assert\NotBlank(message="selectionner catégeorie de régime !")
+     * @Groups("regime")
      */
     private $categorieRegime;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="regimes")
+     * @Groups("regime")
      */
     private $user;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="l'image de régime !")
+     * @Groups("regime")
      */
     
     private $image;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Groups("regime")
      */
     private $createdAt;
 
@@ -79,6 +89,7 @@ class Regime
      * @ORM\Column(type="float", nullable=true)
      * @Assert\NotBlank(message="le prix de régime !")
      * @Assert\Positive(message="le prix doit etre > 0 !")
+     * @Groups("regime")
      */
     private $prix;
 

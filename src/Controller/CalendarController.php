@@ -2,15 +2,16 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Calendar;
 use App\Form\CalendarType;
 use App\Repository\CalendarRepository;
-use App\Repository\SuiviRegimeRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\SuiviRegimeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/calendar")
@@ -168,6 +169,66 @@ class CalendarController extends AbstractController
         return $this->render('calendar/affichCalendarSuivi.html.twig', ['data'=>$data,
         'calendars' => $events,'suiviRegime' => $suiviRegime,
          
+        ]);
+    }
+
+
+
+
+
+    
+    /**
+     * @Route("/upClendar/{id}", name="upClendar", methods={"PUT"})
+     */
+
+     // ?Clendar un objet potentiel : si nexiste pas 
+    public function updateCalendarAjax(?Calendar $calendar, Request $request ,CalendarRepository $calendarRepository): Response
+    {
+       //recuperer les donner envyer par fullcalendar 
+       $donnees = json_decode($request->getContent()); 
+       if(
+        //verifier donnees existe et non vide
+           isset($donnees->title) && !empty($donnees->title)&&
+           isset($donnees->start) && !empty($donnees->start)&&
+           isset($donnees->description) && !empty($donnees->description)&&
+           isset($donnees->backgroundColor) && !empty($donnees->backgroundColor)&&
+           isset($donnees->borderColor) && !empty($donnees->borderColor)&&
+           isset($donnees->textColor) && !empty($donnees->textColor)
+       ){
+
+           $code = 200; //initializer pour dirait c bon cree
+           // verif si l'id existe
+           if(!$calendar){
+               //instancier rdv
+               $calendar = new Calendar;
+               $code =201;
+           }
+           $calendar->setTitle($donnees->title);
+           $calendar->setDescription($donnees->description);
+           $calendar->setStart(new DateTime($donnees->start));
+           //test allday
+
+           if($donnees->allDay){
+               //si true date debut = date fin
+            $calendar->setEnd(new DateTime($donnees->start));
+           }else{
+            $calendar->setEnd(new DateTime($donnees->end));  
+           }
+           $calendar->setAllday($donnees->allDay);
+           $calendar->setBackgroundColor($donnees->backgroundColor);
+           $calendar->setBorderColor($donnees->borderColor);
+           $calendar->setTextColor($donnees->textColor);
+
+           $em = $this->getDoctrine()->getManager();
+           $em->persist($calendar);
+           $em->flush();
+
+           return new Response('Update valide',$code);
+       }else{
+           return new Response('Données incompléte',404);
+       }
+        return $this->render('calendar/index.html.twig', [
+            'calendars' => $calendarRepository->findAll(),
         ]);
     }
 }

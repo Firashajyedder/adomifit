@@ -93,11 +93,19 @@
 
 
 </tr>
+
       
         {% endfor %}
         </tbody>
-    </table>
+    
+    <tfoot>
+  
+           
+       
+  </tfoot>
 
+    </table>
+ {{ knp_pagination_render(regimes) }}
 <form method="post" action="{{ path( 'TemplateRegime')}}" >
     <button style="background: #f36100;" class="btn-danger">TemplateRegime</button>
 </form>

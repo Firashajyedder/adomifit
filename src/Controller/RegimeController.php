@@ -12,6 +12,8 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -20,13 +22,13 @@ class RegimeController extends AbstractController
     /**
      * @Route("/regime", name="regime")
      */
-    public function index(Request $request,PaginatorInterface $paginator): Response
+    public function index(Request $request,PaginatorInterface $paginator , SerializerInterface $serializerInterface): Response
     {
         $rep = $this->getDoctrine()->getRepository(Regime::class);
         $allregimes = $rep->findAll();
         $rep = $this->getDoctrine()->getRepository(CategorieRegime::class);
         $Catregimes = $rep->findAll();
-
+        
         $regimes = $paginator->paginate(
             // Doctrine Query, not results
             $allregimes,
@@ -35,25 +37,37 @@ class RegimeController extends AbstractController
             // Items per page
             3
         );
+        $json = $serializerInterface->serialize($allregimes , 'json',['groups'=>'regime']);
+        
         return $this->render('regime/index.html.twig', [
             'regimes'=>$regimes,
             'Catregimes'=>$Catregimes
         ]);
+      
     }
 
      /**
-     * @Route("/listRegimes", name="listRegimes")
+     * @Route("/listRegimes", name="listRegimes" )
      */
-    public function list(RegimeRepository $regimeRepository): Response
+    public function list(RegimeRepository $regimeRepository , SerializerInterface $serializerInterface,PaginatorInterface $paginator ,Request $request): Response
     {
         //va etre variable session
         $user_id=2;
-       
-        $regimes = $regimeRepository->findListRegimeByIdUser($user_id);
- 
+        $allregimes = $regimeRepository->findListRegimeByIdUser($user_id);
+        $json = $serializerInterface->serialize($allregimes , 'json' , ['groups'=>'regime']);
+        $regimes = $paginator->paginate(
+            // Doctrine Query, not results
+            $allregimes,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            3
+        );
         return $this->render('regime/listRegimes.html.twig', [
           'regimes'=>$regimes,
      ]);
+     //return new JsonResponse($json);
+
         
     }
 
