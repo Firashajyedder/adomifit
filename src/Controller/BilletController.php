@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Billet;
 use App\Form\BilletType;
 use Symfony\Component\HttpFoundation\Request;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 
 class BilletController extends AbstractController
@@ -36,6 +38,42 @@ public function list(): Response
        'billets' => $billets,
    ]);
 
+   
+}
+/**
+* @Route("/listBilletpdf/{id}", name="listBilletpdf")
+*/
+public function listBilletpdf($id): Response
+{
+    $pdfOptions = new Options();
+    
+        $pdfOptions->set('defaultFont', 'Arial');
+        
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        $rep=$this->getDoctrine()->getRepository(Billet::class);
+        $billets =$rep->find($id);
+       
+        
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('billet/pdf.html.twig', [
+            'controller_name' => 'BilletController',
+            'billets' => $billets,
+        ]);
+        
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+        
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
+        ]);
    
 }
 

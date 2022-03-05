@@ -22,25 +22,25 @@
     </section>
     <!-- Breadcrumb Section End -->
 <!-- Team Section Begin -->
-    <section class="team-section spad">
-    <div class="team-title">
+    <section class="team-section team-page spad">
         <div class="container">
-         <h2>Search A Post !!</h2>
-
-            <div class="sidebar-search">
+        <div class="container">
+         <h3 class="text-white">Rechercher <h3>
+           <div class="sidebar-search">
 
                 <div class="input-group custom-search-form">
 
                     <input type="text" id="search" class="form-control" placeholder="Search here">
                 </div>
+              
             </div>
             <ul class="nav" id="side-menu">
                 <li>
-                    <a href="#"> Entities<span class="fa arrow"></span></a>
+                   
                     <ul class="nav nav-second-level" id="entitiesNav">
                     </ul>
                 </li>
-            </ul><br><br><br><br>
+            </ul><br><br>
             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
             <script type="text/javascript">
@@ -56,7 +56,7 @@
                                 searchRequest.abort();
                             searchRequest = $.ajax({
                                 type: "GET",
-                                url: "{{ path('ajax_search') }}",
+                                url: "{{ path('searchEvenement') }}",
                                 data: {
                                     'q' : value
                                 },
@@ -70,9 +70,9 @@
                                                 if (key === 'posts') {
                                                     if (id !== 'error') {
                                                         console.log(value[1]);
-                                                        entitySelector.append('<li><b>'+value[1]+'</b><a href="/detailedpost/'+id+'">'+'<img src="/uploads/images/'+value[0]+'" style="width: 50px; height: 50px"/>'+'</a></li>');
-                                                    } else {
-                                                        entitySelector.append('<li class="errorLi">'+value+'</li>');
+ entitySelector.append(' <div class="row"> <div class="col-lg-8 p-0"><div class="blog-item"> <div class="bi-pic"> <img src="/uploads/images/'+value[0]+'"></div> <div class="bi-text">  <h5><a href="#">'+value[1]+'</a></h5> <p><a  style="border-radius: 50% 20% / 10% 40%;background: #f36100;float: right;" class="p-1 mb-1  text-white " href="/detailRegime/'+id+'"> Détails </a> </p></div> </div>');
+                             } else {
+                                                        entitySelector.append('<li class="errorLi text-white">'+value+'</li>');
                                                     }
                                                 }
                                             });
@@ -84,30 +84,31 @@
                     });
                 });
             </script>
-            <div class="row">
            
-                <div class="col-lg-12">            
-                 <div class="row">
-                 
-                <div class="ts-slider owl-carousel">
-               {% for c in categories%}
-                    <div class="col-lg-4">
-                        <div class="ts-item set-bg" data-setbg="{{asset('uploads/images/' ~  c.image )}}">
-                            <div class="ts_text">
-                                <h4>{{c.libelle}}</h4>
-                                <span>{{c.description}}</span>
-                                <a href="{{ path( 'listEvenementC' , {'id':c.id} )}}" class="primary-btn btn-normal appoinment-btn">Voir Plus</a>
-                            </div>
-                        </div>
-                    </div>
-                     {% endfor %}
-                </div>
-                
-                </div>
-               </div>
+
+
+
             
             </div>
-           
+            <div class="row">
+             {% for c in categories%}
+                <div class="col-lg-4 col-sm-6">
+                    <div class="ts-item set-bg" data-setbg="{{asset('uploads/images/' ~  c.image )}}">
+                        <div class="ts_text">
+                            <h4>{{c.libelle}}</h4>
+                            <span>{{c.description}}</span>
+                            <div class="tt_social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-youtube-play"></i></a>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
+                                <a href="#"><i class="fa  fa-envelope-o"></i></a>
+                            </div>
+                            <a href="{{ path( 'listEvenementC' , {'id':c.id} )}}" class="primary-btn btn-normal appoinment-btn">Voir Plus</a>
+                        </div>
+                    </div>
+                </div>
+           {% endfor %}
         </div>
     </div>
     </section>

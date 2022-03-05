@@ -9,6 +9,10 @@ use App\Entity\CategorieEvenement;
 use App\Form\CatEvenementType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use App\Repository\CategorieEvenementRepository;
 
 class CategorieEvenementController extends AbstractController
 {
@@ -77,6 +81,7 @@ public function listF(): Response
             $categorie->setImage($fileName);
             $em->persist($categorie);
             $em->flush();
+            
             return $this->redirectToRoute('listCategorie');
         }
 
@@ -135,27 +140,29 @@ public function listF(): Response
     }
     
 
-    public function searchAction(Request $request)
-    {
+/**
+     * @Route("/searchEvenement", name="searchEvenement")
+     */
+    public function searchEvenement(Request $request , CategorieEvenementRepository $catevenmentRepository){
         $em = $this->getDoctrine()->getManager();
         $requestString = $request->get('q');
-        $categorie =  $em->getRepository(CategorieEvenement::class)->findEntitiesByString($requestString);
-        if(!$categorie) {
-            $result['categorie']['error'] = "Categorie Not found :( ";
+        $posts =  $catevenmentRepository->findEntitiesByString($requestString);
+        if(!$posts) {
+            $result['posts']['error'] = "Pas de catégorie !  ";
         } else {
-            $result['categorie'] = $this->getRealEntities($categorie);
+            $result['posts'] = $this->getRealEntities($posts);
         }
         return new Response(json_encode($result));
     }
+    public function getRealEntities($posts){
+        foreach ($posts as $posts){
+            $realEntities[$posts->getId()] = [$posts->getImage(),$posts->getType()];
 
-
-    public function getRealEntities ($categorie){  
-    foreach ($categorie as $categorie){
-        $realEntities[$categorie->getId()] = [$categorie->getImage(),$categorie->getDescription()];
-
+        }
+        return $realEntities;
     }
-    return $realEntities;
-}
+
+    
    
 }
 

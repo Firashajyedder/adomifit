@@ -37,6 +37,18 @@ class EvenementRepository extends ServiceEntityRepository
     }
     
 
+    public function findEntitiesByStringe($str){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT e
+                FROM APP\Entity\Evenement e
+                WHERE e.titre LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
+    }
+
+
     // /**
     //  * @return Evenement[] Returns an array of Evenement objects
     //  */

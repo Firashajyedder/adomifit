@@ -9,6 +9,9 @@ use App\Entity\Evenement;
 use App\Form\EvenementType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use App\Repository\EvenementRepository;
 
 class EvenementController extends AbstractController
 {
@@ -42,7 +45,7 @@ class EvenementController extends AbstractController
         ]);
     }
 /**
-     * @Route("/listEvenementD", name="listEvenement")
+     * @Route("/listEvenementD", name="listEvenementD")
      */
     public function listD(): Response
     {
@@ -81,6 +84,7 @@ class EvenementController extends AbstractController
             $evenement->setImage($fileName);
             $em->persist($evenement);
             $em->flush();
+            
             return $this->redirectToRoute('listEvenement');
         }
 
@@ -168,5 +172,33 @@ public function listEvenementD(Request $request , $id): Response
        'evenements' => $evenements,
    ]);
 }
+
+
+
+/**
+     * @Route("/searchEvenementt", name="searchEvenementt")
+     */
+    public function searchEvenementt(Request $request , EvenementRepository $evenmentRepository){
+        $em = $this->getDoctrine()->getManager();
+        $requestString = $request->get('q');
+        $posts =  $evenmentRepository->findEntitiesByStringe($requestString);
+        if(!$posts) {
+            $result['posts']['error'] = "Pas de catégorie !  ";
+        } else {
+            $result['posts'] = $this->getRealEntities($posts);
+        }
+        return new Response(json_encode($result));
+    }
+    public function getRealEntities($posts){
+        foreach ($posts as $posts){
+            $realEntities[$posts->getId()] = [$posts->getImage(),$posts->getType()];
+
+        }
+        return $realEntities;
+    }
+
+
+
+
     
 }

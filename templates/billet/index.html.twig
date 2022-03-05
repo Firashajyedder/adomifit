@@ -43,8 +43,9 @@
                             <li>{{b.detail}}</li>
                             
                         </ul>
-                        <a href="#" class="primary-btn pricing-btn">Acheter</a>
-                        <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
+                        <a href="{{ path( 'achatBillet' , {'id':b.id} )}}" class="primary-btn pricing-btn">Acheter</a>
+                       
+                        <a href="/listBilletpdf/{{b.id}}" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
                     </div>
                 </div>
                 

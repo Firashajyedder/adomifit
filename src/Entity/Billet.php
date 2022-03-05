@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BilletRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -52,6 +54,16 @@ class Billet
      * @Assert\NotBlank (message="Veuillez remplir ce champs")
      */
     private $quantite;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AchatBillet::class, mappedBy="billet")
+     */
+    private $achatBillets;
+
+    public function __construct()
+    {
+        $this->achatBillets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -114,6 +126,36 @@ class Billet
     public function setQuantite(?int $quantite): self
     {
         $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AchatBillet[]
+     */
+    public function getAchatBillets(): Collection
+    {
+        return $this->achatBillets;
+    }
+
+    public function addAchatBillet(AchatBillet $achatBillet): self
+    {
+        if (!$this->achatBillets->contains($achatBillet)) {
+            $this->achatBillets[] = $achatBillet;
+            $achatBillet->setBillet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAchatBillet(AchatBillet $achatBillet): self
+    {
+        if ($this->achatBillets->removeElement($achatBillet)) {
+            // set the owning side to null (unless already changed)
+            if ($achatBillet->getBillet() === $this) {
+                $achatBillet->setBillet(null);
+            }
+        }
 
         return $this;
     }

@@ -23,7 +23,7 @@ class CategorieEvenementRepository extends ServiceEntityRepository
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT c
-                FROM CategorieEvenement c
+                FROM APP\Entity\CategorieEvenement c
                 WHERE c.libelle LIKE :str'
             )
             ->setParameter('str', '%'.$str.'%')
@@ -31,7 +31,7 @@ class CategorieEvenementRepository extends ServiceEntityRepository
     }
 
 
-
+    
 
 
 

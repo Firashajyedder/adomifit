@@ -114,6 +114,11 @@ class User
      */
     private $commandes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AchatBillet::class, mappedBy="user")
+     */
+    private $achatBillets;
+
     public function __construct()
     {
         $this->regimes = new ArrayCollection();
@@ -122,6 +127,7 @@ class User
         $this->suiviRegime = new ArrayCollection();
         $this->suiviProgramme = new ArrayCollection();
         $this->commandes = new ArrayCollection();
+        $this->achatBillets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -459,6 +465,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($commande->getUser() === $this) {
                 $commande->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AchatBillet[]
+     */
+    public function getAchatBillets(): Collection
+    {
+        return $this->achatBillets;
+    }
+
+    public function addAchatBillet(AchatBillet $achatBillet): self
+    {
+        if (!$this->achatBillets->contains($achatBillet)) {
+            $this->achatBillets[] = $achatBillet;
+            $achatBillet->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAchatBillet(AchatBillet $achatBillet): self
+    {
+        if ($this->achatBillets->removeElement($achatBillet)) {
+            // set the owning side to null (unless already changed)
+            if ($achatBillet->getUser() === $this) {
+                $achatBillet->setUser(null);
             }
         }
 
