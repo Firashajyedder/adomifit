@@ -66,130 +66,51 @@
                         <p>L'indice de masse corporelle ou IMC (BMI en anglais pour Body Mass Index) permet de déterminer la corpulence d'une personne. 
                         Cet indice de masse corporelle se calcule en fonction de la taille (en mètres) et du poids (en kilogrammes).
                          Il n'est correctement interprétable que pour un adulte de 18 à 65 ans. L'IMC est le rapport du poids (en kg) sur la taille (en mètre) élevée au carré.</p>
-                        <form action="" method="get"  name="ideal" id="ideal">
+                        <form onSubmit=" return false;">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <input name="taille" id="taille" type="text" placeholder="Entrez votre taille (en cm) ici.">
+                                    <input   id="height" type="text" placeholder="Entrez votre taille (en cm) ici.">
                                 </div>
                                 <div class="col-sm-6">
-                                    <input id="poid" type="text" name="poids"  placeholder="Entrez votre poids ici.">
+                                    <input  id="weight" type="text" name="poids"  placeholder="Entrez votre poids ici.">
                                 </div>
                               
                                 <div class="col-lg-12">
-                                    <button type="button" value="Calculer" name="calculee" OnClick="Valider(this.form)">Calculer</button>
-                                </div>
+                                     <button id="btn">Calculate</button>
+  
+        <div id="result" class="text-warning"></div>
+                                </div><br><br><br>
+                               
                             </div>
                         </form>
-                         <div id="resultat">
-            <hr />
-            <p><span id="somme">???</span></p>
-            <hr />
-           
-        </div>
+                        
+                       
                     </div>
                 </div>
             </div>
-        </div><br>
+        </div><br><br><br><br>
         <section >
-        <div class="container" style="background: #ffff; ">
-    <div id="calendrier" style ="width:80%; margin:auto;">
+        
+        <div class="container" style=" ">
+     
+          <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb-text">
+                        <h2> Votre Plannings Repas </h2>
+                    
+                    </div>
+                </div>
+            </div>
+    <div id="calendrier" style ="width:100%;padding:50PX;  margin:auto;background: #ffff; opacity:.9;">
     </div>
     </div>
     </section>
-       <div class="container">
-        <h1>BMI Calculator</h1>
-  
-        <!-- Option for providing height 
-            and weight to the user-->
-        <p>Height (in cm)</p>
-  
-        <input type="text" id="height">
-  
-        <p>Weight (in kg)</p>
-  
-        <input type="text" id="weight">
-  
-        <button id="btn">Calculate</button>
-  
-        <div id="result" class="text-warning"></div>
-    </div>
+     
     </section>
     <!-- BMI Calculator Section End -->
     
     <!---->
-  
 
-{% block javaScript %}
-
-<script language="JavaScript" type="text/javascript">
-
-function Valider(ideal)
-    {
-        
-		var taille = document.ideal.taille.value
-		var poids = document.ideal.poids.value
-            if ((taille == "Entrez votre taille (en cm) ici.")|| (taille == "")|| (poids == "Entrez votre poids ici.")|| (poids == ""))   //alert si un champ n'esp pas renseigné
-                {
-                    alert("Si vous voulez que je calcule votre indice de masse corporel ainsi que votre poids idéal il faut que vous entrez vos mensuration");
-                }
-				else
-				{
-				//Fonction calcul de l'imc
-            var nombre1 = (taille*0.01)          //convertion de la taille des centimètres en mètres
-			var nombre2 = (nombre1*nombre1)      //taille au carré
-			var nombre3 = (poids/nombre2)        //poids divisé par la taille au carré
-			alert("Votre indice de masse corporel est de: " + nombre3 + "!");
-			
-			// Message d'alerte en fonction de l'imc
-			
-			if (nombre3 <= 16)
-			{
-			alert("Votre indice est un très faible, c'est à dire que vous êtes très maigre. Il faut faire très attention, je vous recomande de voir un nutrioniste!")
-			}
-			if (nombre3 <=18 && nombre3 >16)
-			{
-			alert("Votre indice est faible, vous êtes maigre, il faut surveiller votre ligne!");
-			}
-			if (nombre3 <=20 && nombre3 >18)
-			{
-			alert("Vous êtes en leger + sous-poids + , il faut manger!!!");
-			}
-			if (nombre3 <=24 && nombre3 >20)
-			{
-			alert("Vous êtes dans la moyenne, ne vous inquietez pas!");
-			}
-			if (nombre3 <=26 && nombre3 >24)
-			{
-			alert("Vous êtes en très leger sur-poids, ce n'est pas bien grave");
-			}
-			if (nombre3 <=28 && nombre3 >26)
-			{
-			alert("Vous êtes en sur-poids mais ce n'est pas iratrappable!");
-			}
-			if (nombre3 <=32 && nombre3 >28)
-			{
-			alert("Vous êtes en sur-poids!");
-			}
-			if (nombre3 >32)
-			{
-			alert("Vous êtes vraiment en sur-poids, je vous conseil de voir un nutritioniste pour qu'il vous adapte un regime personnalisé.");
-			}
-			
-			
-			//Fonction calcul du poid parfait
-			
-			var nombre4 = (22*nombre2)         //22 est l'indice parfait
-			alert("Votre poids idéal est de: " + nombre4 + "!");
-				
-		        }
-    }
-    
-</script>
-
-
-
-
-{% endblock %}
 
 
 {% block jsClendar %}
@@ -212,17 +133,6 @@ window.onload = () => {
    
     calendar.render()
 
-
-
-
-
-
-
-
-
-
-
-
     let button = document.querySelector("#btn");
   
     // Function for calculating BMI
@@ -242,32 +152,60 @@ function calculateBMI() {
             .querySelector("#weight").value);
   
     let result = document.querySelector("#result");
-  
+     var entitySelector = $("#result").html('');
+     
     // Checking the user providing a proper
     // value or not
     if (height === "" || isNaN(height)) 
-        result.innerHTML = "Provide a valid Height!";
+        result.innerHTML = "Donner valide Taille !";
   
     else if (weight === "" || isNaN(weight)) 
-        result.innerHTML = "Provide a valid Weight!";
+        result.innerHTML = "Donner valide Poid !";
   
     // If both input is valid, calculate the bmi
     else {
   
         // Fixing upto 2 decimal places
-        let bmi = (weight / ((height * height) 
-                            / 10000)).toFixed(2);
-  
-        // Dividing as per the bmi conditions
-        if (bmi < 18.6) result.innerHTML =
-            `Under Weight : <span>${bmi}</span>`;
-  
-        else if (bmi >= 18.6 && bmi < 24.9) 
-            result.innerHTML = 
-                `Normal : <span>${bmi}</span>`;
-  
-        else result.innerHTML =
-            `Over Weight : <span>${bmi}</span>`;
+    
+             height = (height*0.01)*(height*0.01)          //convertion de la taille des centimètres en mètres   //taille au carré
+			let bmi = (weight/height).toFixed(2);
+  if (bmi <= 16)
+			{
+
+            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Votre indice est un très faible, c'est à dire que vous êtes très maigre. Il faut faire très attention, je vous recomande de voir un nutrioniste!</p> </div>`);
+			}
+			if (bmi <=18 && bmi >16)
+			{
+            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Votre indice est faible, vous êtes maigre, il faut surveiller votre ligne!</p> </div>`);
+			}
+			if (bmi <=20 && bmi >18)
+			{
+            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Vous êtes en leger + sous-poids + , il faut manger !</p> </div>`);
+			}
+			if (bmi <=24 && bmi >20)
+			{
+            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Vous êtes dans la moyenne, ne vous inquietez pas !</p> </div>`);
+			}
+			if (bmi <=26 && bmi >24)
+			{
+            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Vous êtes en très leger sur-poids, ce n'est pas bien grave</p> </div>`);
+			}
+			if (bmi <=28 && bmi >26)
+			{
+            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Vous êtes en sur-poids mais ce n'est pas iratrappable !</p> </div>`);
+			}
+			if (bmi <=32 && bmi >28)
+			{
+            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Vous êtes en sur-poids!</p> </div>`);
+			
+			}
+			if (bmi >32)
+			{
+                entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Vous êtes vraiment en sur-poids, je vous conseil de voir un nutritioniste pour qu'il vous adapte un regime personnalisé.!</p> </div>`);
+
+			}
+			
+      
     }
 }
 </script>

@@ -73,7 +73,7 @@
                                                 if (key === 'posts') {
                                                     if (id !== 'error') {
                                                         console.log(value[1]);
- entitySelector.append(' <div class="row"> <div class="col-lg-8 p-0"><div class="blog-item"> <div class="bi-pic"> <img src="/uploads/images/'+value[0]+'"></div> <div class="bi-text">  <h5><a href="#">'+value[1]+'</a></h5> <p><a  style="border-radius: 50% 20% / 10% 40%;background: #f36100;float: right;" class="p-1 mb-1  text-white " href="/detailRegime/'+id+'"> Détails </a> </p></div> </div>');
+ entitySelector.append('<div class="container"> <div class="row"> <div class="col-lg-8 p-0"><div class="blog-item"> <div class="bi-pic"> <img src="/uploads/images/'+value[0]+'"></div> <div class="bi-text">  <h5><a href="#">'+value[1]+'</a></h5> <p><a  style="border-radius: 50% 20% / 10% 40%;background: #f36100;float: right;" class="p-1 mb-1  text-white " href="/detailRegime/'+id+'"> Détails </a> </p></div></div> </div> </div>');
                              } else {
                                                         entitySelector.append('<li class="errorLi text-white">'+value+'</li>');
                                                     }
