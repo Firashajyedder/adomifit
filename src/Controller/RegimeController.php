@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Data\FiltreData;
 use App\Entity\User;
 use App\Entity\Regime;
 use App\Form\AddRegimeType;
 use Doctrine\ORM\Mapping\Id;
 use App\Entity\CategorieRegime;
+use App\Form\FiltreForm;
 use App\Repository\RegimeRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,13 +18,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class RegimeController extends AbstractController
 {
     /**
      * @Route("/regime", name="regime")
      */
-    public function index(Request $request,PaginatorInterface $paginator , SerializerInterface $serializerInterface): Response
+    public function index(Request $request,PaginatorInterface $paginator ): Response
     {
         $rep = $this->getDoctrine()->getRepository(Regime::class);
         $allregimes = $rep->findAll();
@@ -37,7 +40,7 @@ class RegimeController extends AbstractController
             // Items per page
             3
         );
-        $json = $serializerInterface->serialize($allregimes , 'json',['groups'=>'regime']);
+       
         
         return $this->render('regime/index.html.twig', [
             'regimes'=>$regimes,
@@ -45,6 +48,60 @@ class RegimeController extends AbstractController
         ]);
       
     }
+
+
+   
+
+
+
+
+    
+
+     /**
+     * @Route("/regimes", name="regimes")
+     */
+    public function regimes(Request $request,PaginatorInterface $paginator , RegimeRepository $regimeRepository ): Response
+    {
+
+
+        $data = new FiltreData();
+        $data->page = $request->get('page', 1);
+        $form = $this->createForm(FiltreForm::class, $data);
+        $form->handleRequest($request);
+        [$min,$max]= $regimeRepository->MinMax($data);
+        
+        $allregimes = $regimeRepository->findSearch($data);
+       
+      
+        
+        $regimes = $paginator->paginate(
+            // Doctrine Query, not results
+            $allregimes,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            3
+        );
+       
+        
+        return $this->render('regime/allRegime.html.twig', [
+            'regimes'=>$regimes,
+            'form' => $form->createView(),
+            'min'=> $min,
+            'max'=> $max
+        ]);
+      
+    }
+
+   
+
+
+
+
+
+
+
+
 
      /**
      * @Route("/listRegimes", name="listRegimes" )
@@ -256,6 +313,25 @@ class RegimeController extends AbstractController
         return $realEntities;
     }
 
+
+
+
+
+
+    // Les fonctions Api
+
+    /**
+     * @Route("/AllRgimes", name="AllRgimes")
+     */
+    public function AllRgimes(NormalizerInterface $normalizer){
+      
+        $rep = $this->getDoctrine()->getRepository(Regime::class);
+        $regimes = $rep->findAll();
+
+        $json = $normalizer->normalize($regimes , 'json' , ['groups'=>'regime']);
+
+        return new Response(json_encode($json));
+    }
 
     
 

@@ -7,6 +7,7 @@ use App\Entity\CategorieRegime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategorieRegimeController extends AbstractController
@@ -100,8 +101,20 @@ class CategorieRegimeController extends AbstractController
 
 
 
+  // Les fonctions Api
 
+    /**
+     * @Route("/AllCatRgimes", name="AllCatRgimes")
+     */
+    public function AllCatRgimes(NormalizerInterface $normalizer){
+      
+        $rep = $this->getDoctrine()->getRepository(CategorieRegime::class);
+        $catRegimes = $rep->findAll();
 
+        $json = $normalizer->normalize($catRegimes , 'json' , ['groups'=>'catRegime']);
+
+        return new Response(json_encode($json));
+    }
 
 
 

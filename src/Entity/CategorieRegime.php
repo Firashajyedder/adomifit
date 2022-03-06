@@ -18,7 +18,7 @@ class CategorieRegime
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("categorieRegime")
+     * @Groups("catRegime")
      */
     private $id;
 
@@ -31,7 +31,7 @@ class CategorieRegime
      *      minMessage = "Minimum {{ limit }} caractéres",
      *      maxMessage = "Maximum {{ limit }} caractéres"
      * )
-     * @Groups("categorieRegime")
+     * @Groups("catRegime")
      */
     private $libelle;
 
@@ -42,13 +42,13 @@ class CategorieRegime
      *      min = 10,
      *      minMessage = "Minimum {{ limit }} caractéres"
      * )
-     * @Groups("categorieRegime")
+     * @Groups("catRegime")
      */
     private $description;
 
     /**
      * @ORM\OneToMany(targetEntity=Regime::class, mappedBy="categorieRegime",orphanRemoval=true)
-     * @Groups("categorieRegime")
+     * @Groups("catRegime")
      */
     private $regimes;
 

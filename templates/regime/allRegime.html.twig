@@ -3,6 +3,7 @@
 {% block title %}A domifit | Régime{% endblock %}
 
 {% block body %}
+
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="front-office/img/blog/details/details-hero.jpg">
         <div class="container">
@@ -42,7 +43,8 @@
                 </li>
             </ul><br><br><br><br>
 
-            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+            </script>
 
             <script type="text/javascript">
                 jQuery(document).ready(function() {
@@ -93,8 +95,15 @@
             
             
             
-            <br>
+       
+             <div class="row">
+             <div class="d-flex justify-content-end text-white "style="background: transparent;" >
+                    {{knp_pagination_sortable(regimes, 'Prix','r.prix')}}
+            </div>
+           
+             </div>
             <div class="row">
+           
                 <div class="col-lg-8 p-0">
 
                   {% for reg in regimes %}
@@ -136,20 +145,22 @@
                      </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-8 p-0">
+                <div class="col-lg-4 col-md-8 p-0" >
                     <div class="sidebar-option">
-                        <div class="so-categories">
+                        <div class="so-categories" style ="display: block; position: sticky; top:20px;">
                             <h5 class="title">Categories</h5>
                             <ul>
-                            {% for cat in Catregimes %}
-                                <li><a href="#"> {{ cat.libelle }}<span>12</span></a></li>
-                                 {% endfor %}
-                     
+                          
+                                 <div class="filtrer" >
+                                  {% include 'regime/FormFiltrer.html.twig' with {form: form , min: min , max: max} only %}
+                                 </div>
+                                
+                
                             </ul>
                             
                         </div>
 
-
+                        <!-- 
                         <div class="so-latest">
                             <h5 class="title">Feature posts</h5>
                             <div class="latest-large set-bg" data-setbg="front-office/img/letest-blog/latest-1.jpg">
@@ -209,6 +220,7 @@
                             <a href="#">Cardio</a>
                             <a href="#">Karate</a>
                         </div>
+                        -->
                     </div>
                 </div>
             </div>
@@ -217,5 +229,6 @@
     <!-- Blog Section End -->
 
     <!-- Get In Touch Section Begin -->
+
   
 {% endblock %}
