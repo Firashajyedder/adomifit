@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\RegimeRepository;
 use Doctrine\Common\Collections\Collection;
@@ -80,7 +81,7 @@ class Regime
     private $image;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime_immutable")
      * @Groups("regime")
      */
     private $createdAt;
@@ -95,6 +96,7 @@ class Regime
 
     public function __construct()
     {
+        $this->setCreatedAt(new \DateTimeImmutable());
         $this->suivisRegimes = new ArrayCollection();
     }
 

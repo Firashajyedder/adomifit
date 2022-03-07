@@ -102,6 +102,24 @@ class RegimeRepository extends ServiceEntityRepository
     }
 
 
+
+
+     /**
+     * Returns number of "Annonces" per day
+     * @return void 
+     */
+    public function countByDate(){
+        // $query = $this->createQueryBuilder('r')
+        //     ->select('SUBSTRING(a.createdAt, 1, 10) as dateRegimes, COUNT(r) as count')
+        //     ->groupBy('dateRegimes')
+        // ;
+        // return $query->getQuery()->getResult();
+        $query = $this->getEntityManager()->createQuery("
+            SELECT SUBSTRING(r.createdAt, 1, 10) as dateRegimes, COUNT(r) as count FROM App\Entity\Regime r GROUP BY dateRegimes ");
+        return $query->getResult();
+    }
+
+
     
    
 

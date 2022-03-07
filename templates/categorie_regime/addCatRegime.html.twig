@@ -70,6 +70,15 @@
     <td class="text-danger">{{form_errors(formAddCatRegime.description )}} </td>
     <td></td>
 </tr>
+<tr>
+    <td>{{form_label(formAddCatRegime.statcolor , "StatColor de catégorie")}}</td>
+    <td>{{form_widget(formAddCatRegime.statcolor)}}  </td>
+</tr>
+<tr>
+    <td class="text-danger">{{form_errors(formAddCatRegime.statcolor )}} </td>
+    <td></td>
+</tr>
+
 
 </table>
 {{form_row(formAddCatRegime.save,{'label':'Ajouter '})}}

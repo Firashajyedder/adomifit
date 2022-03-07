@@ -105,11 +105,40 @@
     </div>
     </div>
     </section>
+
+
+
+    <section>
+    <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb-text">
+                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Validation Repas d'aujourd'hui </button>
+         {% include 'suivi_regime/ModalToDo.html.twig' %}
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </section>
      
     </section>
+
+
     <!-- BMI Calculator Section End -->
     
     <!---->
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -172,36 +201,36 @@ function calculateBMI() {
   if (bmi <= 16)
 			{
 
-            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Votre indice est un très faible, c'est à dire que vous êtes très maigre. Il faut faire très attention, je vous recomande de voir un nutrioniste!</p> </div>`);
+            entitySelector.append(`<div class="text-white">  <h2>Votre Imc =  </h2>  <div class="breadcrumb-text"> <h2> ${bmi}</h2></div>  <p>Votre indice est un très faible, c'est à dire que vous êtes très maigre. Il faut faire très attention, je vous recomande de voir un nutrioniste!</p> </div>`);
 			}
 			if (bmi <=18 && bmi >16)
 			{
-            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Votre indice est faible, vous êtes maigre, il faut surveiller votre ligne!</p> </div>`);
+            entitySelector.append(`<div class="text-white"> <h2>Votre Imc = </h2>  <div class="breadcrumb-text"> <h2>${bmi}</h2></div> <p>Votre indice est faible, vous êtes maigre, il faut surveiller votre ligne!</p> </div>`);
 			}
 			if (bmi <=20 && bmi >18)
 			{
-            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Vous êtes en leger + sous-poids + , il faut manger !</p> </div>`);
+            entitySelector.append(`<div class="text-white"> <h2>Votre Imc = </h2>  <div class="breadcrumb-text"> <h2>${bmi}</h2></div> <p>Vous êtes en leger + sous-poids + , il faut manger !</p> </div>`);
 			}
 			if (bmi <=24 && bmi >20)
 			{
-            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Vous êtes dans la moyenne, ne vous inquietez pas !</p> </div>`);
+            entitySelector.append(`<div class="text-white"> <h2>Votre Imc = </h2>  <div class="breadcrumb-text"> <h2>${bmi}</h2></div> <p>Vous êtes dans la moyenne, ne vous inquietez pas !</p> </div>`);
 			}
 			if (bmi <=26 && bmi >24)
 			{
-            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Vous êtes en très leger sur-poids, ce n'est pas bien grave</p> </div>`);
+            entitySelector.append(`<div class="text-white"> <h2>Votre Imc = </h2>  <div class="breadcrumb-text"> <h2>${bmi}</h2></div> <p>Vous êtes en très leger sur-poids, ce n'est pas bien grave</p> </div>`);
 			}
 			if (bmi <=28 && bmi >26)
 			{
-            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Vous êtes en sur-poids mais ce n'est pas iratrappable !</p> </div>`);
+            entitySelector.append(`<div class="text-white"> <h2>Votre Imc = </h2>  <div class="breadcrumb-text"> <h2>${bmi}</h2></div> <p>Vous êtes en sur-poids mais ce n'est pas iratrappable !</p> </div>`);
 			}
 			if (bmi <=32 && bmi >28)
 			{
-            entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Vous êtes en sur-poids!</p> </div>`);
+            entitySelector.append(`<div class="text-white"> <h2>Votre Imc = </h2>  <div class="breadcrumb-text"> <h2>${bmi}</h2></div> <p>Vous êtes en sur-poids!</p> </div>`);
 			
 			}
 			if (bmi >32)
 			{
-                entitySelector.append(`<div class="text-white"> Votre Imc = ${bmi}<p>Vous êtes vraiment en sur-poids, je vous conseil de voir un nutritioniste pour qu'il vous adapte un regime personnalisé.!</p> </div>`);
+                entitySelector.append(`<div class="text-white"> <h2>Votre Imc = </h2>  <div class="breadcrumb-text"> <h2>${bmi}</h2></div> <p>Vous êtes vraiment en sur-poids, je vous conseil de voir un nutritioniste pour qu'il vous adapte un regime personnalisé.!</p> </div>`);
 
 			}
 			

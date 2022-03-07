@@ -52,6 +52,11 @@ class CategorieRegime
      */
     private $regimes;
 
+    /**
+     * @ORM\Column(type="string", length=7, nullable=true)
+     */
+    private $statcolor;
+
     public function __construct()
     {
         $this->regimes = new ArrayCollection();
@@ -117,6 +122,18 @@ class CategorieRegime
                 $regime->setCategorieRegime(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatcolor(): ?string
+    {
+        return $this->statcolor;
+    }
+
+    public function setStatcolor(?string $statcolor): self
+    {
+        $this->statcolor = $statcolor;
 
         return $this;
     }
