@@ -10,6 +10,7 @@ use App\Form\BilletType;
 use Symfony\Component\HttpFoundation\Request;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 class BilletController extends AbstractController
@@ -144,12 +145,17 @@ public function listBilletpdf($id): Response
 /**
 * @Route("/listBilletC/{id}", name="listBilletC")
 */
-public function listBilletC(Request $request , $id): Response
+public function listBilletC(Request $request , $id, PaginatorInterface $paginator): Response
 {
    $rep=$this->getDoctrine()->getRepository(Billet::class);
 
-   $billets =$rep-> findByIdEvenement($id);
-
+   $donnees =$rep-> findByIdEvenement($id);
+   
+   $billets = $paginator->paginate(
+       $donnees,
+       $request->query->getInt('page',1),
+       3
+   );
    return $this->render('billet/index.html.twig', [
        
        'billets' => $billets,

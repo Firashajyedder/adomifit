@@ -59,11 +59,17 @@ class Evenement
      */
     private $horraire;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Avis::class, mappedBy="evenement_id")
+     */
+    private $avis;
+
     
 
     public function __construct()
     {
         $this->billets = new ArrayCollection();
+        $this->avis = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,6 +168,36 @@ class Evenement
     public function setHorraire(?\DateTimeInterface $horraire): self
     {
         $this->horraire = $horraire;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Avis[]
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): self
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis[] = $avi;
+            $avi->setEvenementId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): self
+    {
+        if ($this->avis->removeElement($avi)) {
+            // set the owning side to null (unless already changed)
+            if ($avi->getEvenementId() === $this) {
+                $avi->setEvenementId(null);
+            }
+        }
 
         return $this;
     }

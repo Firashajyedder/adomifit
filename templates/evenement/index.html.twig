@@ -73,7 +73,11 @@
                                                 if (key === 'posts') {
                                                     if (id !== 'error') {
                                                         console.log(value[1]);
- entitySelector.append(' <div class="row"> <div class="col-lg-8 p-0"><div class="blog-item"> <div class="bi-pic"> <img src="/uploads/images/'+value[0]+'"></div> <div class="bi-text">  <h5><a href="#">'+value[1]+'</a></h5> <p><a  style="border-radius: 50% 20% / 10% 40%;background: #f36100;float: right;" class="p-1 mb-1  text-white " href="/detailRegime/'+id+'"> Détails </a> </p></div> </div>');
+ entitySelector.append(' <div class="row"> <div class="col-lg-8 p-0"><div class="blog-item"> 
+ <div class="bi-pic"> <img src="/uploads/images/'+value[0]+'"></div> <div class="bi-text">  
+ <h5><a href="#">'+value[1]+'</a>
+ </h5> <p><a  style="border-radius: 50% 20% / 10% 40%;background: #f36100;float: right;" class="p-1 mb-1  text-white " href="/detailRegime/'+id+'"> Détails </a> 
+ </p></div> </div>');
                              } else {
                                                         entitySelector.append('<li class="errorLi text-white">'+value+'</li>');
                                                     }
@@ -101,7 +105,7 @@
                             <img src="{{asset('/uploads/images/' ~  e.image )}}" alt="">
                         </div>
                         <div class="bi-text">
-                        <div><a href="#" class="primary-btn btn-normal appoinment-btn">Détails</a></div>
+                        <div><a href="/listEvenementD/{{e.id}}" class="primary-btn btn-normal appoinment-btn">Détails</a></div>
                         
                             <h5><a>{{e.titre}}</a></h5>
                             <ul>
@@ -112,44 +116,23 @@
                             <p>{{e.description}}</p>
                             <h5><a>{{e.horraire| date("m/d/Y")}}</a></h5>
                              <a href="{{ path( 'listBilletC' , {'id':e.id} )}}" class="primary-btn btn-normal appoinment-btn">Participer</a>
+                             
                         </div>
-       
+        
                     </div>
                     {% endfor %}
                     
-                    <div class="blog-pagination">
-                        <a href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#">Next</a>
-                    </div>
-                </div>
-                
-                            
-                                
+            
                             
                    
                 </div>
+                {{ knp_pagination_render(evenements) }}
             </div>
         </div>
     </section>
     <!-- Blog Section End -->
 
-    <!-- Banner Section Begin -->
-    <section class="banner-section set-bg" data-setbg="/front-office/img/banner-bg.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="bs-text">
-                        <h2>registration now to get more deals</h2>
-                        <div class="bt-tips">Where health, beauty and fitness meet.</div>
-                        <a href="#" class="primary-btn  btn-normal">Appointment</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Banner Section End -->
+    
 
 
     <!-- Testimonial Section Begin -->

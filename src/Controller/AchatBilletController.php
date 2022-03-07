@@ -46,7 +46,7 @@ class AchatBilletController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($achatBillet);
             $em->flush();
-            return $this->redirectToRoute('listCategorie');
+            return $this->redirectToRoute('listCategorieF');
            
         }
 

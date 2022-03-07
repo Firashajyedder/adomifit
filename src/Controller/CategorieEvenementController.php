@@ -13,6 +13,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use App\Repository\CategorieEvenementRepository;
+use Knp\Component\Pager\PaginatorInterface;
 
 class CategorieEvenementController extends AbstractController
 {
@@ -29,7 +30,7 @@ class CategorieEvenementController extends AbstractController
     /**
 * @Route("/listCategorie", name="listCategorie")
 */
-public function list(): Response
+public function list(Request $request, PaginatorInterface $paginator): Response
 {
    $rep=$this->getDoctrine()->getRepository(CategorieEvenement::class);
 
@@ -43,11 +44,16 @@ public function list(): Response
  /**
 * @Route("/listCategorieF", name="listCategorieF")
 */
-public function listF(): Response
+public function listF(Request $request, PaginatorInterface $paginator): Response
 {
    $rep=$this->getDoctrine()->getRepository(CategorieEvenement::class);
 
-   $categories =$rep-> findAll();
+   $donnees =$rep-> findAll();
+   $categories = $paginator->paginate(
+       $donnees,
+       $request->query->getInt('page',1),
+       3
+   );
 
    return $this->render('categorie_evenement/index.html.twig', [
        'controller_name' => 'CategorieEvenementController',

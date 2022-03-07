@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use App\Repository\EvenementRepository;
+use Knp\Component\Pager\PaginatorInterface;
 
 class EvenementController extends AbstractController
 {
@@ -29,7 +30,18 @@ class EvenementController extends AbstractController
         ]);
     }
 
+/**
+     * @Route("/listEvenements", name="listEvenements")
+     */
+    public function listEvenements(): Response
+    {
+        
 
+        return $this->render('evenement/index1.html.twig', [
+            'controller_name' => 'EvenementController',
+            
+        ]);
+    }
       /**
      * @Route("/listEvenement", name="listEvenement")
      */
@@ -61,7 +73,7 @@ class EvenementController extends AbstractController
     /**
      * @Route("/addEvenement", name="addEvenement")
      */
-    public function addEvenement(Request $request): Response
+    public function addEvenement(Request $request,\Swift_Mailer $mailer): Response
     {
 
         $evenement = new Evenement();
@@ -84,7 +96,14 @@ class EvenementController extends AbstractController
             $evenement->setImage($fileName);
             $em->persist($evenement);
             $em->flush();
-            
+            $message = (new \Swift_Message('Hello Email'))
+        ->setFrom('myriambrahmi23@gmail.com')
+        ->setTo('myriam.brahmi@esprit.tn')
+        ->setBody("Hello !")
+    ;
+
+    $mailer->send($message);
+    $this->addFlash('message','Le message a bien été transmis');
             return $this->redirectToRoute('listEvenement');
         }
 
@@ -146,11 +165,17 @@ class EvenementController extends AbstractController
 /**
 * @Route("/listEvenementC/{id}", name="listEvenementC")
 */
-public function listEvenementC(Request $request , $id): Response
+public function listEvenementC(Request $request , PaginatorInterface $paginator, $id): Response
 {
    $rep=$this->getDoctrine()->getRepository(Evenement::class);
 
-   $evenements =$rep-> findByIdCategorie($id);
+   $donnees =$rep-> findByIdCategorie($id);
+  
+   $evenements = $paginator->paginate(
+       $donnees,
+       $request->query->getInt('page',1),
+       2
+   );
 
    return $this->render('evenement/index.html.twig', [
        
@@ -199,6 +224,20 @@ public function listEvenementD(Request $request , $id): Response
 
 
 
-
+    /**
+    * @Route("/listEvenementE/{id}", name="listEvenementE")
+    */
+    public function listEvenementE(Request $request , $id): Response
+    {
+       $rep=$this->getDoctrine()->getRepository(Evenement::class);
+    
+       $evenements =$rep-> findByIddetail($id);
+    
+       return $this->render('evenement/stars.html.twig', [
+           
+           'evenements' => $evenements,
+       ]);
+    }
+    
     
 }
