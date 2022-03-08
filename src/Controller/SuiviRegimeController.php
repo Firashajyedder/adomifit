@@ -8,11 +8,14 @@ use App\Entity\SuiviRegime;
 use App\Form\SuiviRegimeType;
 use App\Repository\CalendarRepository;
 use App\Repository\SuiviRegimeRepository;
+use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class SuiviRegimeController extends AbstractController
 {
@@ -154,7 +157,7 @@ class SuiviRegimeController extends AbstractController
     {
         //va etre variable session
         $user_id=1;
-       
+      
         $suiviRegime = $suiviRegimeRepository->findSuiviByIdUser($user_id);
      
         $events = $calendarRep->findCalendarSuivi($suiviRegime);
@@ -173,9 +176,15 @@ class SuiviRegimeController extends AbstractController
             ];
         }
         $data = json_encode($rdvs);
+     
+       
+        //pour laffichage du modal
+        $repas = $calendarRep->findCalendarSuivi($suiviRegime );
+      
+
       
         return $this->render('suivi_regime/showsuiviRegimes.html.twig', [
-          'suiviRegime'=>$suiviRegime,'data'=>$data
+          'suiviRegime'=>$suiviRegime,'data'=>$data ,'repas'=>$repas
      ]);
 
 

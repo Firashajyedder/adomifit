@@ -58,4 +58,15 @@ class CalendarRepository extends ServiceEntityRepository
         ->getResult();
     }
 
+
+    public function findRepasDate($currentdate,$suiviRegime){
+        return $this->createQueryBuilder('c')
+        ->Where('c.suiviRegime =:suiviRegime')
+        ->andWhere('CONVERT(c.start, GETDATE()) =:currentdate')
+        ->setParameter('suiviRegime',$suiviRegime)
+        ->setParameter('currentdate',$currentdate->format('Y-m-d'))
+        ->getQuery()
+        ->getResult();
+    }
+
 }

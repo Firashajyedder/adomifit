@@ -62,6 +62,11 @@ class Calendar
      */
     private $suiviRegime;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $checked;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -171,6 +176,18 @@ class Calendar
     public function setSuiviRegime(?SuiviRegime $suiviRegime): self
     {
         $this->suiviRegime = $suiviRegime;
+
+        return $this;
+    }
+
+    public function getChecked(): ?bool
+    {
+        return $this->checked;
+    }
+
+    public function setChecked(?bool $checked): self
+    {
+        $this->checked = $checked;
 
         return $this;
     }
