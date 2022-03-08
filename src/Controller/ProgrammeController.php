@@ -100,7 +100,7 @@ class ProgrammeController extends AbstractController
     }
 
     /**
-     * @Route("/all", name="listProgrammeALL", methods={"GET"})
+     * @Route("/", name="listProgrammeALL", methods={"GET"})
      */
     public function listProgrammeALL(Request $request , PaginatorInterface $paginator): Response
     {
