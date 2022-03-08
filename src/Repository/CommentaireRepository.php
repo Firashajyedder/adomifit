@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Commentaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query;
 
 /**
  * @method Commentaire|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +49,12 @@ class CommentaireRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findEntitiesByString($str){
+        return $this->createQueryBuilder('c')
+        ->andWhere('c.type LIKE :val')
+        ->setParameter('val', $str)
+        ->getQuery()
+        ->getResult();
+    ;
+    }
 }

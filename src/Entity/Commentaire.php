@@ -42,6 +42,16 @@ class Commentaire
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $vus;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $temps;
+
    
 
     public function getId(): ?int
@@ -97,5 +107,29 @@ class Commentaire
         return $this;
     }
 
+    public function getVus(): ?int
+    {
+        return $this->vus;
+    }
+
+    public function setVus(?int $vus): self
+    {
+        $this->vus = $vus;
+
+        return $this;
+    }
+
+    public function getTemps(): ?\DateTimeInterface
+    {
+        return $this->temps;
+    }
+
+    public function setTemps(\DateTimeInterface $temps): self
+    {
+        $this->temps = $temps;
+
+        return $this;
+    }
+   
 
 }
