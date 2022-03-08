@@ -13,6 +13,7 @@ class AdminController extends AbstractController
 {
    /**
      * @Route("/statistiqueAdmin", name="stats")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function statistiques(){
         // statistique 
@@ -25,7 +26,7 @@ class AdminController extends AbstractController
 
     /**
     *@Route("/bloqueclient/{email}", name="blocage")
-     *@IsGranted("ROLE_ADMIN")
+    * @IsGranted("ROLE_ADMIN")
      */
     public function ban(String $email): Response
     {

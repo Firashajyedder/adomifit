@@ -101,10 +101,10 @@
         var myChart = new Chart(ctx, {
           type: 'bar',
           data: {
-            labels: ["Client", "Coach", "Nutritionniste"],
+            labels: ["Offre en cours de deploiement", "Offre acceptée", "Offre rejetée"],
             datasets: [{
               label: 'Nombre',
-              data: [ {{client}}, {{coach}}, {{nut}}],
+              data: [ {{1}}, {{22}}, {{11}}],
               borderWidth: 2,
               backgroundColor: ['#FD9D15', '#31DE8D', '#FF4914'], 
               
@@ -136,8 +136,24 @@
           }
         });
 
+        var ctx = document.getElementById("myChart4").getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            datasets: [{
+              data: [ {{5}},{{10}}, {{20}}],
+              backgroundColor: ['#FD9D15', '#31DE8D', '#FF4914' ],
+              label: 'Dataset 1'
+            }],
+
+            labels: ['Taches en cours', 'Taches términées', 'Taches Expirées'],
+          },
+          options: {
+            responsive: true,
+            legend: {
+              position: 'bottom',
+            },
+          }
+        });
         </script>
-        <script src="{{ asset('assets/js/chart.min.jss') }} "></script> 
-
-
-{% endblock %}
+        {% endblock %}

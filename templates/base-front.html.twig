@@ -9,12 +9,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    
     <title> {% block title %}A domifit{% endblock %}</title>
-    
-
+ 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet">
-
+{% block cssprofil %}
+  
+{% endblock %}
     <!-- Css Styles -->
     {% block css %}
   
@@ -47,19 +48,19 @@
         <nav class="canvas-menu mobile-menu">
             <ul>
                 <li><a href=" {{ path( 'accueil' )}}">Accueil</a></li>
-                <li><a href="{{ path( 'produit' )}}">Produits</a>
+                <li><a href="#">Produits</a>
                     <ul class="dropdown">
                         <li><a href="#">Vêtements</a></li>
                         <li><a href="#">Accessoires</a></li>
                         <li><a href="#">Protéines</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ path( 'programme' )}}">Programmes sports</a></li>
-                <li><a href=" {{ path( 'regime' )}}">Régimes alimentaires</a></li>
-                <li><a href="{{ path( 'evenement' )}}">Evenements</a></li>
-                <li><a href="{{ path( 'forum' )}}">Forums</a></li>
+                <li><a href="#">Programmes sports</a></li>
+                <li><a href="#">Régimes alimentaires</a></li>
+                <li><a href="#">Evenements</a></li>
+                <li><a href="#">Forums</a></li>
                 
-                <li><a href="{{ path( 'contact' )}}">Contact</a></li>
+                <li><a href="#">Contact</a></li>
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -79,7 +80,7 @@
             <div class="row">
                 <div class="col-sm-1">
                     <div class="logo">
-                        <a href="./index.html">
+                        <a href="{{ path( 'accueil' )}}">
                             <img src="front-office/img/logo2.png" class="rounded float-left" alt="">
                         </a>
                     </div>
@@ -88,19 +89,19 @@
                     <nav class="nav-menu">
                          <ul>
                 <li><a href="{{ path( 'accueil' )}}">Accueil</a></li>
-                <li><a href="{{ path( 'produit' )}}">Produits</a>
+                <li><a href="#">Produits</a>
                     <ul class="dropdown">
                         <li><a href="#">Vêtements</a></li>
                         <li><a href="#">Accessoires</a></li>
                         <li><a href="#">Protéines</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ path( 'programme' )}}">Programmes sports</a></li>
-                <li><a href="{{ path( 'regime' )}}">Régimes alimentaires</a></li>
-                <li><a href="{{ path( 'evenement' )}}">Evenements</a></li>
-                <li><a href="{{ path( 'forum' )}}">Forums</a></li>
+                <li><a href="#">Programmes sports</a></li>
+                <li><a href="#">Régimes alimentaires</a></li>
+                <li><a href="#">Evenements</a></li>
+                <li><a href="#">Forums</a></li>
                 
-                <li><a href="{{ path( 'contact' )}}">Contact</a></li>
+                <li><a href="#">Contact</a></li>
             </ul>
                     </nav>
                 </div>
@@ -198,11 +199,11 @@
                     <div class="fs-widget">
                         <h4>Services</h4>
                         <ul>
-                            <li><a href="{{ path( 'programme' )}}">Programmes sports</a></li>
-                            <li><a href="{{ path( 'regime' )}}">Régimes alimentaires</a></li>
-                            <li><a href="{{ path( 'produit' )}}">Produits</a></li>
-                              <li><a href="{{ path( 'evenement' )}}">Evenements</a></li>
-                            <li><a href="{{ path( 'forum' )}}">Forums</a></li>
+                            <li><a href="#">Programmes sports</a></li>
+                            <li><a href="#">Régimes alimentaires</a></li>
+                            <li><a href="#">Produits</a></li>
+                              <li><a href="#">Evenements</a></li>
+                            <li><a href="#">Forums</a></li>
                         </ul>
                     </div>
                 </div>
@@ -214,7 +215,7 @@
                             <li><a href="#">Login</a></li>
                             <li><a href="#">Mon Compte</a></li>
                             <li><a href="#">Inscription</a></li>
-                            <li><a href=" {{ path( 'contact' )}}">Contact</a></li>
+                            <li><a href="#">Contact</a></li>
                         </ul>
                     </div>
                 </div>
@@ -272,6 +273,8 @@
     <script src="front-office/js/jquery.slicknav.js"></script>
     <script src="front-office/js/owl.carousel.min.js"></script>
     <script src="front-office/js/main.js"></script>
+    <script src="{{ asset('assets/js/mainSH.js') }} "></script> 
+
     {% endblock %}
 
 
