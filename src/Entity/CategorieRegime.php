@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CategorieRegimeRepository::class)
+ * 
  */
 class CategorieRegime
 {
@@ -18,7 +19,7 @@ class CategorieRegime
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("catRegime")
+     * @Groups("cat")
      */
     private $id;
 
@@ -31,7 +32,8 @@ class CategorieRegime
      *      minMessage = "Minimum {{ limit }} caractéres",
      *      maxMessage = "Maximum {{ limit }} caractéres"
      * )
-     * @Groups("catRegime")
+     * @Groups("cat")
+     * 
      */
     private $libelle;
 
@@ -42,18 +44,20 @@ class CategorieRegime
      *      min = 10,
      *      minMessage = "Minimum {{ limit }} caractéres"
      * )
-     * @Groups("catRegime")
+     *  @Groups("cat")
      */
     private $description;
 
     /**
      * @ORM\OneToMany(targetEntity=Regime::class, mappedBy="categorieRegime",orphanRemoval=true)
-     * @Groups("catRegime")
+     *  
+     * 
      */
     private $regimes;
 
     /**
-     * @ORM\Column(type="string", length=7, nullable=true)
+     * @ORM\Column(type="string", length=7, nullable=false)
+     *@Groups("cat")
      */
     private $statcolor;
 

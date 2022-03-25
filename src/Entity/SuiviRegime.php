@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\SuiviRegimeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SuiviRegimeRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=SuiviRegimeRepository::class)
@@ -16,39 +17,64 @@ class SuiviRegime
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("regime")
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("regime")
      */
     private $note;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("regime")
      */
     private $remarque;
 
     /**
      * @ORM\ManyToOne(targetEntity=Regime::class, inversedBy="suivisRegimes")
+     * @Groups("regime")
+     * 
      */
     private $regime;
 
     
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="suiviRegime")
+     * @Groups("regime")
+     * 
      */
     private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=Calendar::class, mappedBy="suiviRegime",orphanRemoval=true)
+     * @Groups("regime")
+     * 
      */
     private $calendars;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("regime")
      */
     private $titre;
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\JoinColumn(name="regime_id", referencedColumnName="id")
+     * @Groups("regime")
+     * 
+     */
+    private $regime_id;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @Groups("regime")
+     * 
+     */
+    private $user_id;
 
     public function __construct()
     {
@@ -160,4 +186,36 @@ class SuiviRegime
     }
 
 
+
+
+    
+
+
+
+    public function getRegimeId()
+    {
+        return $this->regime_id;
+    }
+
+    
+    public function setRegimeId($regime_id)
+    {
+        $this->regime_id = $regime_id;
+
+        return $this;
+    }
+
+  
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+   
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+
+        return $this;
+    }
 }

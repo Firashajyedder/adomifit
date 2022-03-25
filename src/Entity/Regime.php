@@ -55,20 +55,21 @@ class Regime
 
     /**
      * @ORM\OneToMany(targetEntity=SuiviRegime::class, mappedBy="regime")
-     * @Groups("regime")
+     *
      */
     private $suivisRegimes;
 
     /**
      * @ORM\ManyToOne(targetEntity=CategorieRegime::class, inversedBy="regimes")
      * @Assert\NotBlank(message="selectionner catégeorie de régime !")
-     * @Groups("regime")
+     * @Groups("cat")
+     *
      */
     private $categorieRegime;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="regimes")
-     * @Groups("regime")
+     * @Groups("user")
      */
     private $user;
 
@@ -85,6 +86,8 @@ class Regime
      * @Groups("regime")
      */
     private $createdAt;
+    
+  
 
     /**
      * @ORM\Column(type="float", nullable=true)
@@ -93,6 +96,21 @@ class Regime
      * @Groups("regime")
      */
     private $prix;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\JoinColumn(name="categorie_regime_id", referencedColumnName="id")
+     * @Groups("cat")
+     */
+    private $categorie_regime_id ;
+      /**
+     * @ORM\Column(type="integer")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @Groups("regime")
+     * 
+     */
+    private $user_id;
+
 
     public function __construct()
     {
@@ -235,4 +253,33 @@ class Regime
 
         return $this;
     }
+
+
+
+    public function getCategorieRegimeId(): ?int
+    {
+        return $this->categorie_regime_id;
+    }
+
+    public function setCategorieRegimeId(int $categorie_regime_id): self
+    {
+        $this->categorie_regime_id = $categorie_regime_id;
+
+        return $this;
+    }
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+   
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+
+        return $this;
+    }
+
+
+   
 }

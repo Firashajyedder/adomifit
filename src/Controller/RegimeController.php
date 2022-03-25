@@ -2,23 +2,27 @@
 
 namespace App\Controller;
 
-use App\Data\FiltreData;
 use App\Entity\User;
 use App\Entity\Regime;
+use App\Data\FiltreData;
+use App\Form\FiltreForm;
 use App\Form\AddRegimeType;
 use Doctrine\ORM\Mapping\Id;
 use App\Entity\CategorieRegime;
-use App\Form\FiltreForm;
 use App\Repository\RegimeRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
+
 
 class RegimeController extends AbstractController
 {
@@ -162,6 +166,8 @@ class RegimeController extends AbstractController
             $regime = $form->getData();
             
             $file = $regime->getImage();
+         
+            
             $fileName = md5(uniqid()).'.'.$file->guessExtension() ;
             try{
                 $file->move(
@@ -318,7 +324,10 @@ class RegimeController extends AbstractController
 
 
 
-    // Les fonctions Api
+   
+
+
+  // Les fonctions Api
 
     /**
      * @Route("/AllRgimes", name="AllRgimes")
@@ -327,13 +336,161 @@ class RegimeController extends AbstractController
       
         $rep = $this->getDoctrine()->getRepository(Regime::class);
         $regimes = $rep->findAll();
-
-        $json = $normalizer->normalize($regimes , 'json' , ['groups'=>'regime']);
-
+        
+       
+      
+        $json = $normalizer->normalize($regimes , 'json' , ['groups'=>['cat','regime']]);
         return new Response(json_encode($json));
     }
 
+
+     /******************Ajouter Regime*****************************************/
+     /**
+      * @Route("/ajoutRegime", name="ajoutRegime")
+      * 
+      */
+
+      public function ajoutRegime(Request $request,NormalizerInterface $normalizer , \Swift_Mailer $mailer )
+      {
+          $regime = new Regime();
+          $type = $request->query->get("type");
+          $description = $request->query->get("description");
+          $dificulte = $request->query->get("dificulte");  
+          $prix = $request->query->get("prix");
+          $image = $request->query->get("image"); 
+          $categorie_regime_id = $request->query->get("categorie_regime_id");
+          $idUser= $request->query->get("user");
     
+          $em = $this->getDoctrine()->getManager();
+            
+ 
+          $regime->setType($type);
+          $regime->setDescription($description);
+          $regime->setDificulte($dificulte);
+          $regime->setPrix($prix);
+          $regime->setImage($image);
+
+          $rep = $this->getDoctrine()->getRepository(User::class);
+          $user  = $rep->find($idUser);
+          $regime->setUser($user);
+
+            //envoie email success d'ajout regime
+            $userEmail = $user->getEmail();
+            $message = (new \Swift_Message('New'))
+
+            ->setFrom('houssem.kouki@esprit.tn')
+
+            ->setTo($userEmail )
+
+            ->setSubject('Votre régime a été enregistrée !')
+            ->setBody( $this->renderView(
+                'regime/addRegimeEmail.html.twig'),
+               
+                'text/html'
+            );
+            $mailer->send($message); 
+        /**
+         * 
+         * 
+         */
+        /*
+         $file = $regime->getImage();
+         dd($file);
+            
+            $fileName = md5(uniqid()).'.'.$file->guessExtension() ;
+            try{
+                $file->move(
+                $this->getParameter('images_directory'),
+                $fileName
+            );
+            }catch(FileException $e){
+
+            }
+            */
+         
+
+         
+        
+          $regime->setCategorieRegimeId($categorie_regime_id);
+          $rep = $this->getDoctrine()->getRepository(CategorieRegime::class);
+            $regime->setCategorieRegime($rep->find($categorie_regime_id));
+         
+          $em->persist($regime);
+          $em->flush();
+         // $serializer = new Serializer([new ObjectNormalizer()]);
+          $formatted = $normalizer->normalize($regime , 'json' , ['groups'=>['cat','regime']]);
+          //$formatted = $serializer->normalize($regime, 'json' , ['groups'=>['cat','regime']]);
+         
+          return new JsonResponse($formatted);
+ 
+      }
+
+
+       /******************Supprimer Regime*****************************************/
+
+     /**
+      * @Route("/suppRegime", name="suppRegime")
+      * 
+      */
+
+      public function suppRegime(Request $request) {
+        $id = $request->get("id");
+        $em = $this->getDoctrine()->getManager();
+        $reg = $em->getRepository(Regime::class)->find($id);
+        if($reg!=null ) {
+            $em->remove($reg);
+            $em->flush();
+
+            $serialize = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serialize->normalize(" Regime a ete supprimee avec success.");
+            return new JsonResponse($formatted);
+
+        }
+        return new JsonResponse("id regime invalide.");
+
+
+        
+
+
+    }  
+
+
+
+
+    
+      /******************Modifier Regime*****************************************/
+    /**
+     * @Route("/modifRegime", name="modifRegime")
+     * 
+     */
+    public function modifRegime(Request $request,NormalizerInterface $normalizer) {
+        $em = $this->getDoctrine()->getManager();
+        $regime = $this->getDoctrine()->getManager()
+                        ->getRepository(Regime::class)
+                        ->find($request->get("id"));
+
+    
+
+        $regime->setType($request->get("type"));
+        $regime->setDescription($request->get("description"));
+        $regime->setDificulte($request->get("dificulte"));
+        $regime->setPrix($request->get("prix"));
+        $regime->setImage($request->get("image"));
+
+        $categorie_regime_id = $request->query->get("categorie_regime_id");
+        $regime->setCategorieRegimeId($categorie_regime_id);
+        $rep = $this->getDoctrine()->getRepository(CategorieRegime::class);
+          $regime->setCategorieRegime($rep->find($categorie_regime_id));
+
+        $em->persist($regime);
+        $em->flush();
+        $formatted = $normalizer->normalize($regime , 'json' , ['groups'=>['cat','regime']]);
+          //$formatted = $serializer->normalize($regime, 'json' , ['groups'=>['cat','regime']]);
+         
+          return new JsonResponse($formatted);
+        return new JsonResponse("Regime a ete modifiee avec success.");
+
+    }
 
 
 }

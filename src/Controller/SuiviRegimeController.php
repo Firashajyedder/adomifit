@@ -2,20 +2,24 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\User;
 use App\Entity\Regime;
 use App\Entity\SuiviRegime;
 use App\Form\SuiviRegimeType;
 use App\Repository\CalendarRepository;
 use App\Repository\SuiviRegimeRepository;
-use DateTime;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\VarDumper\Cloner\Data;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\VarDumper\Cloner\Data;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SuiviRegimeController extends AbstractController
 {
@@ -155,6 +159,7 @@ class SuiviRegimeController extends AbstractController
      */
     public function showsuiviRegime(SuiviRegimeRepository $suiviRegimeRepository,CalendarRepository $calendarRep): Response
     {
+      
         //va etre variable session
         $user_id=1;
       
@@ -205,6 +210,163 @@ class SuiviRegimeController extends AbstractController
      ]);
         
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     //**********************************Les fonctions Api *******************************************************************************
+
+
+ /**
+     * @Route("/ajoutSuiviRegimeDirect", name="addsuiviRegimeDirect")
+     */
+    public function ajoutSuiviRegimeDirect(Request $request,SuiviRegimeRepository $suiviRegimeRepository,NormalizerInterface $normalizer,\Swift_Mailer $mailer ): Response
+    {
+    
+        $titre = $request->query->get("titre");
+        $remarque = $request->query->get("remarque");
+        $note = $request->query->get("idUser");
+
+
+        $idRegime = $request->query->get("idRegime");
+
+        $idUser = $request->query->get("idUser");  
+        $rep = $this->getDoctrine()->getRepository(User::class);
+        $user = $rep->find($idUser);
+        $userRegime= $suiviRegimeRepository->findSuiviByIdUser($idUser);
+        //verifier si user courant a déja un suivi régime ou non 
+        $suiviRegime = new SuiviRegime();
+        if($userRegime == null){
+             //recuperation de regime par id 
+        $rep = $this->getDoctrine()->getRepository(Regime::class);
+        $regime = $rep->find($idRegime);
+
+        
+
+        //creation de suivi
+       
+        $suiviRegime->setRegime($regime);
+        $suiviRegime->setUser($user);
+        $suiviRegime->setNote(0);
+        $suiviRegime->setTitre("Nouveau Suivi");
+        $suiviRegime->setRemarque("Pas encore de remarque");
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($suiviRegime);
+        $em->flush();
+         //envoie email success d'ajout regime
+         $userEmail = $user->getEmail();
+         $message = (new \Swift_Message('New'))
+
+         ->setFrom('houssem.kouki@esprit.tn')
+
+         ->setTo($userEmail )
+
+         ->setSubject('Félicitation vous avez achter un régime  !')
+         ->setBody( $this->renderView(
+             'regime/addRegimeEmail.html.twig'),
+            
+             'text/html'
+         );
+         $mailer->send($message); 
+        $formatted = $normalizer->normalize($regime , 'json' , ['groups'=>['cat','regime','user','suivi']]);
+        return new JsonResponse($formatted);
+        }    
+        return new JsonResponse("suivi Regime déja Exist");
+      
+   
+    }
+
+
+     /**
+     * @Route("/AllSuivis", name="AllSuivis")
+     */
+    public function AllSuivis(NormalizerInterface $normalizer){
+      
+        $rep = $this->getDoctrine()->getRepository(SuiviRegime::class);
+        $suivis = $rep->findAll();
+        $json = $normalizer->normalize($suivis , 'json' , ['groups'=>['regime']]);
+
+        return new Response(json_encode($json));
+    }
+
+
+      
+     /******************Detail Suiivi*****************************************/
+
+     /**
+      * @Route("/detailSuivi", name="detailSuivi")
+      * 
+      */
+
+      public function detailSuivi(Request $request,NormalizerInterface $normalizer)
+      {
+          $id = $request->get("id");
+          $suivis = $this->getDoctrine()->getManager()->getRepository(SuiviRegime::class)->find($id);
+          $json = $normalizer->normalize($suivis , 'json' , ['groups'=>['cat','regime','suivi']]);
+          
+         
+          return new Response(json_encode($json));
+ 
+ 
+ 
+      }
+
+
+          /******************Detail Suiivi d'un user *****************************************/
+
+     /**
+      * @Route("/detailSuiviUser", name="detailSuiviUser")
+      * 
+      */
+
+      public function detailSuiviUser(Request $request,NormalizerInterface $normalizer,SuiviRegimeRepository $suiviRegimeRepository)
+      {
+          $idUser = $request->get("idUser");
+          $suivis= $suiviRegimeRepository->findOneBy(['user_id' => $idUser]);
+         // $suivis= $suiviRegimeRepository->findSuiviByIdUser($idUser);
+          $json = $normalizer->normalize($suivis , 'json' , ['groups'=>['cat','regime','suivi']]);
+           
+          return new Response(json_encode($json));
+ 
+      }
+
+
+
+
+
+      /**
+     * @Route("/ListeSuivs", name="ListeSuivs")
+     */
+    public function ListeSuivs(Request $request,SuiviRegimeRepository $suiviRegimeRepository,NormalizerInterface $normalizer): Response
+    {
+
+        $regime_id = $request->get("idRegime");
+        
+        $suiviRegimes = $suiviRegimeRepository->findListSuivisByIdRegime($regime_id);
+       
+        $json = $normalizer->normalize($suiviRegimes , 'json' , ['groups'=>['regime']]);
+
+        return new Response(json_encode($json));
+        
+    }
+
+
+
+
 
 
 
